@@ -44,7 +44,7 @@ public class RouteManager : MonoBehaviour
     {
         int obstacleLayer = LayerMask.GetMask(LayerNameConsts.Obstacle);
         Vector2 direction = (to - from).normalized;
-        float distance = (to - from).magnitude + DistanceConsts.MinDistance;
+        float distance = (to - from).magnitude + CalculationConsts.DistanceOffset;
         RaycastHit2D hit = Physics2D.Raycast(from, direction, distance, obstacleLayer);
         return hit.collider == null;
     }

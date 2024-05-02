@@ -1,4 +1,6 @@
+using Assets.Scripts.Consts;
 using Assets.Scripts.Dto;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,7 @@ public class Player : MonoBehaviour
 {
     private PlayerMovement playerMovement;
     private RouteManager routeManager;
+    private InteractableObject interactableTarget;
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
@@ -18,25 +21,46 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        HandleNewTarget();
+        HandleNewMovementTarget();
         HandleInteraction();
+        HandleInteractableTarget();
     }
 
-    private void HandleNewTarget()
+    private void HandleInteractableTarget()
+    {
+        if (interactableTarget == null)
+        {
+            return;
+        }
+        float distanceToTarget = Vector2.Distance(interactableTarget.transform.position, transform.position);
+        if (distanceToTarget < InteractableObjectConstants.MaxInteractionDistance)
+        {
+            interactableTarget.Interact(this);
+            interactableTarget = null;
+            playerMovement.ResetTarget();
+        }
+    }
+
+    private void HandleNewMovementTarget()
     {
         if (!Input.GetKeyDown(KeyCode.Mouse0))
         {
             return;
         }
         Vector2 mouseWorldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        BuildedRoute buildedRoute = routeManager.BuildRoute(transform.position, mouseWorldPoint);
+        TrySetNewTarget(mouseWorldPoint);
+    }
+
+    private void TrySetNewTarget(Vector2 targetPoint)
+    {
+        BuildedRoute buildedRoute = routeManager.BuildRoute(transform.position, targetPoint);
         if (buildedRoute == null)
         {
             playerMovement.ResetTarget();
         }
         else if (buildedRoute.Route == null)
         {
-            playerMovement.SetDirectTarget(mouseWorldPoint);
+            playerMovement.SetDirectTarget(targetPoint);
         }
         else
         {
@@ -46,19 +70,24 @@ public class Player : MonoBehaviour
 
     private void HandleInteraction()
     {
-        if (!Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            return;
+            interactableTarget = null;
         }
-
         Vector2 mouseWorldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D[] hits = Physics2D.RaycastAll(mouseWorldPoint, Vector2.zero);
-        if (hits.Length > 0)
+        var interactableObjectLayer = LayerMask.GetMask(LayerNameConsts.InteractableObject);
+        List<InteractableObject> interactableObjects = Physics2D.RaycastAll(mouseWorldPoint, Vector2.zero, 1f, interactableObjectLayer).Select(h => h.collider.GetComponent<InteractableObject>()).ToList();
+        foreach (InteractableObject interactableObject in interactableObjects)
         {
-            List<InteractableObject> interactableObjects = hits.Select(h => h.collider.GetComponent<InteractableObject>()).Where(c => c != null).ToList();
-            foreach (InteractableObject interactableObject in interactableObjects)
+            float distanceToObject = Vector2.Distance(interactableObject.transform.position, transform.position);
+            if (distanceToObject < InteractableObjectConstants.MaxHighlightDistance)
             {
-                Debug.Log($"Clicked on {interactableObject.gameObject.name}");
+                interactableObject.HighlightOn();
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    interactableTarget = interactableObject;
+                    TrySetNewTarget(interactableTarget.transform.position);
+                }
             }
         }
     }

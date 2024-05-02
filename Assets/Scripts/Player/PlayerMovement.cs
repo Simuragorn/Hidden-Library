@@ -37,12 +37,12 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-        if (Vector2.Distance(transform.position, currentRoute.CustomTargetPoint) < DistanceConsts.MinDistance)
+        if (Vector2.Distance(transform.position, currentRoute.CustomTargetPoint) < CalculationConsts.DistanceOffset)
         {
             ResetTarget();
             return;
         }
-        if (Vector2.Distance(transform.position, targetPoint.Value) < DistanceConsts.MinDistance)
+        if (Vector2.Distance(transform.position, targetPoint.Value) < CalculationConsts.DistanceOffset)
         {
             RoutePointReached();
         }
@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-        if (Vector2.Distance(transform.position, targetPoint.Value) < DistanceConsts.MinDistance)
+        if (Vector2.Distance(transform.position, targetPoint.Value) < CalculationConsts.DistanceOffset)
         {
             targetPoint = null;
             return;

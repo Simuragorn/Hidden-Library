@@ -5,4 +5,5 @@ using UnityEngine;
 public static class LayerNameConsts
 {
     public const string Obstacle = "Obstacle";
+    public const string InteractableObject = "InteractableObject";
 }

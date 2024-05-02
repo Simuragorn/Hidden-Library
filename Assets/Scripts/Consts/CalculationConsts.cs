@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Consts
 {
-    public static class DistanceConsts
+    public static class CalculationConsts
     {
-        public const float MinDistance = 0.1f;
+        public const float DistanceOffset = 0.1f;
     }
 }
