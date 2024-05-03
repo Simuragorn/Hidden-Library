@@ -17,7 +17,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.I))
         {
             inventoryUI.gameObject.SetActive(!inventoryUI.activeSelf);
         }

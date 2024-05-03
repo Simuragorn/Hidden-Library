@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Consts
 {
-    public static class InteractableObjectConstants
+    public class TagConsts
     {
-        public const float MaxHighlightDistance = 5f;
-        public const float MaxInteractionDistance = 1f;
+        public const string Player = "Player";
     }
 }

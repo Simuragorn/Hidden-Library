@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
             return;
         }
         float distanceToTarget = Vector2.Distance(interactableTarget.transform.position, transform.position);
-        if (distanceToTarget < InteractableObjectConstants.MaxInteractionDistance)
+        if (distanceToTarget < InteractableObjectConsts.MaxInteractionDistance)
         {
             TryInteract();
             interactableTarget = null;
@@ -135,7 +135,7 @@ public class Player : MonoBehaviour
         foreach (InteractableObject interactableObject in interactableObjects)
         {
             float distanceToObject = Vector2.Distance(interactableObject.transform.position, transform.position);
-            if (distanceToObject < InteractableObjectConstants.MaxHighlightDistance)
+            if (distanceToObject < InteractableObjectConsts.MaxHighlightDistance)
             {
                 interactableObject.HighlightOn();
                 if (Input.GetKeyDown(KeyCode.Mouse0))

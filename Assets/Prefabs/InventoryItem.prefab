@@ -52,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemImageSprite: {fileID: 0}
   itemImage: {fileID: 2286100478889356714}
+  itemIndex: 1
 --- !u!1 &1343527320098937127
 GameObject:
   m_ObjectHideFlags: 0

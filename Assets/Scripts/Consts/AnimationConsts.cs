@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Assets.Scripts.Consts
+{
+    public static class AnimationConsts
+    {
+        public const string AnimationStateKey = "state";
+        public static class NarrativeIcon
+        {
+            public const int ShowIconValue = 0;
+            public const int HideIconValue = 2;
+        }
+    }
+}
