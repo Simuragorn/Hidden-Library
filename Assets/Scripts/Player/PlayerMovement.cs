@@ -5,8 +5,10 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed;
+    public Vector2 MovementDirection { get; private set; }
     private Vector2? targetPoint;
     private BuildedRoute currentRoute;
+
     private void Update()
     {
         HandleRoute();
@@ -50,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void RoutePointReached()
     {
+        transform.position = targetPoint.Value;
         if (currentRoute.TargetPointIndex == currentRoute.CurrentPointIndex)
         {
             targetPoint = currentRoute.CustomTargetPoint;
@@ -63,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleMovement()
     {
+        MovementDirection = Vector2.zero;
         if (targetPoint == null)
         {
             return;
@@ -78,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
         {
             newPosition.y = transform.position.y;
         }
+        MovementDirection = direction;
         transform.position = newPosition;
     }
 

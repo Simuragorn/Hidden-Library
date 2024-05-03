@@ -1,7 +1,9 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Collider2D))]
-public class InteractableObject : MonoBehaviour
+public class InteractableObject : MonoBehaviour, IPointerExitHandler
 {
     [SerializeField] private GameObject highlightObject;
     private void Awake()
@@ -23,7 +25,8 @@ public class InteractableObject : MonoBehaviour
     {
         highlightObject.gameObject.SetActive(false);
     }
-    private void OnMouseExit()
+
+    public void OnPointerExit(PointerEventData eventData)
     {
         HighlightOff();
     }
