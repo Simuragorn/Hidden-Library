@@ -7,18 +7,25 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(PlayerMovement))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private GameObject VFX;
+    private PlayerInventory playerInventory;
     private PlayerMovement playerMovement;
     private RouteManager routeManager;
     private InteractableObject interactableTarget;
+    int UILayer;
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
+        playerInventory = GetComponent<PlayerInventory>();
         routeManager = FindAnyObjectByType<RouteManager>();
+
+        UILayer = LayerMask.NameToLayer(LayerNameConsts.UI);
     }
 
     private void Update()
@@ -63,7 +70,6 @@ public class Player : MonoBehaviour
 
     private void Interact(InteractableObjectTypeEnum interactionType)
     {
-        interactableTarget.InteractAs(interactionType);
         switch (interactionType)
         {
             case InteractableObjectTypeEnum.Watchable:
@@ -74,6 +80,7 @@ public class Player : MonoBehaviour
             case InteractableObjectTypeEnum.Takable:
                 {
                     Debug.Log($"Taking {interactableTarget.gameObject.name}");
+                    playerInventory.AddItem(interactableTarget.ItemPrefab);
                 }
                 break;
             case InteractableObjectTypeEnum.Usable:
@@ -82,11 +89,12 @@ public class Player : MonoBehaviour
                 }
                 break;
         }
+        interactableTarget.InteractAs(interactionType);
     }
 
     private void HandleNewMovementTarget()
     {
-        if (!Input.GetKeyDown(KeyCode.Mouse0))
+        if (!Input.GetKeyDown(KeyCode.Mouse0) || IsPointerOverUIElement())
         {
             return;
         }
@@ -113,13 +121,13 @@ public class Player : MonoBehaviour
 
     private void HandleInteraction()
     {
+        if (!IsMouseOnScreen() || IsPointerOverUIElement())
+        {
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             interactableTarget = null;
-        }
-        if (!IsMouseOnScreen())
-        {
-            return;
         }
         Vector2 mouseWorldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var interactableObjectLayer = LayerMask.GetMask(LayerNameConsts.InteractableObject);
@@ -138,6 +146,34 @@ public class Player : MonoBehaviour
             }
         }
     }
+
+
+    //Returns 'true' if we touched or hovering on Unity UI element.
+    public bool IsPointerOverUIElement()
+    {
+        return IsPointerOverUIElement(GetEventSystemRaycastResults());
+    }
+
+    private bool IsPointerOverUIElement(List<RaycastResult> eventSystemRaysastResults)
+    {
+        for (int index = 0; index < eventSystemRaysastResults.Count; index++)
+        {
+            RaycastResult curRaysastResult = eventSystemRaysastResults[index];
+            if (curRaysastResult.gameObject.layer == UILayer)
+                return true;
+        }
+        return false;
+    }
+
+    static List<RaycastResult> GetEventSystemRaycastResults()
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+        List<RaycastResult> raysastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, raysastResults);
+        return raysastResults;
+    }
+
     public bool IsMouseOnScreen()
     {
 #if UNITY_EDITOR

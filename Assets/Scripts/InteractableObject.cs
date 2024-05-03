@@ -6,10 +6,12 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(Collider2D))]
 public class InteractableObject : MonoBehaviour, IPointerExitHandler
 {
+    [SerializeField] private InventoryItem itemPrefab;
     [SerializeField] private GameObject highlightObject;
     [SerializeField] private List<InteractableObjectTypeEnum> allowedInteractions;
 
     public IReadOnlyList<InteractableObjectTypeEnum> AllowedInteractions => allowedInteractions;
+    public InventoryItem ItemPrefab => itemPrefab;
     private void Awake()
     {
         HighlightOff();
@@ -49,6 +51,7 @@ public class InteractableObject : MonoBehaviour, IPointerExitHandler
     public void BeingUsed()
     {
         Debug.Log($"{gameObject.name} being used");
+        Destroy(gameObject);
     }
 
     public void HighlightOn()

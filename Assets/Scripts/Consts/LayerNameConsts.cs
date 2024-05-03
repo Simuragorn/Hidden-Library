@@ -6,4 +6,5 @@ public static class LayerNameConsts
 {
     public const string Obstacle = "Obstacle";
     public const string InteractableObject = "InteractableObject";
+    public const string UI = "UI";
 }
