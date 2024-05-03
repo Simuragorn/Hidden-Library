@@ -1,5 +1,6 @@
 using Assets.Scripts.Consts;
 using Assets.Scripts.Dto;
+using Assets.Scripts.Enums;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -48,9 +49,38 @@ public class Player : MonoBehaviour
         float distanceToTarget = Vector2.Distance(interactableTarget.transform.position, transform.position);
         if (distanceToTarget < InteractableObjectConstants.MaxInteractionDistance)
         {
-            interactableTarget.Interact(this);
+            TryInteract();
             interactableTarget = null;
             playerMovement.ResetTarget();
+        }
+    }
+
+    private void TryInteract()
+    {
+        InteractableObjectTypeEnum interactionType = interactableTarget.AllowedInteractions.FirstOrDefault();
+        Interact(interactionType);
+    }
+
+    private void Interact(InteractableObjectTypeEnum interactionType)
+    {
+        interactableTarget.InteractAs(interactionType);
+        switch (interactionType)
+        {
+            case InteractableObjectTypeEnum.Watchable:
+                {
+                    Debug.Log($"Watching {interactableTarget.gameObject.name}");
+                }
+                break;
+            case InteractableObjectTypeEnum.Takable:
+                {
+                    Debug.Log($"Taking {interactableTarget.gameObject.name}");
+                }
+                break;
+            case InteractableObjectTypeEnum.Usable:
+                {
+                    Debug.Log($"Using {interactableTarget.gameObject.name}");
+                }
+                break;
         }
     }
 

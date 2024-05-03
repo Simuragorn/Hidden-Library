@@ -1,4 +1,5 @@
-using Unity.VisualScripting;
+using Assets.Scripts.Enums;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -6,15 +7,48 @@ using UnityEngine.EventSystems;
 public class InteractableObject : MonoBehaviour, IPointerExitHandler
 {
     [SerializeField] private GameObject highlightObject;
+    [SerializeField] private List<InteractableObjectTypeEnum> allowedInteractions;
+
+    public IReadOnlyList<InteractableObjectTypeEnum> AllowedInteractions => allowedInteractions;
     private void Awake()
     {
         HighlightOff();
     }
 
-    public void Interact(Player player)
+    public void InteractAs(InteractableObjectTypeEnum interactableType)
     {
-        Debug.Log($"Interacted on {gameObject.name}");
+        switch (interactableType)
+        {
+            case InteractableObjectTypeEnum.Watchable:
+                {
+                    BeingWatched();
+                }
+                break;
+            case InteractableObjectTypeEnum.Takable:
+                {
+                    BeingTaken();
+                }
+                break;
+            case InteractableObjectTypeEnum.Usable:
+                {
+                    BeingUsed();
+                }
+                break;
+        }
+    }
+
+    public void BeingWatched()
+    {
+        Debug.Log($"{gameObject.name} being watched");
+    }
+    public void BeingTaken()
+    {
+        Debug.Log($"{gameObject.name} being taken");
         Destroy(gameObject);
+    }
+    public void BeingUsed()
+    {
+        Debug.Log($"{gameObject.name} being used");
     }
 
     public void HighlightOn()
