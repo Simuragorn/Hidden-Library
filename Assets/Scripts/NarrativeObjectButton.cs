@@ -6,9 +6,18 @@ public class NarrativeObjectButton : MonoBehaviour
 {
     private bool available = false;
     private Animator animator;
+    private NarrativePanel narrativePanel;
+    private string displayingText;
+    
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        narrativePanel = FindObjectOfType<NarrativePanel>();
+    }
+
+    public void Init(string text)
+    {
+        displayingText = text;
     }
 
     public void ShowIcon()
@@ -29,7 +38,7 @@ public class NarrativeObjectButton : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Narrative");
+        narrativePanel.ShowNewText(displayingText);
         HideIcon();
     }
 }

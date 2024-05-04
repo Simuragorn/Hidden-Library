@@ -21,7 +21,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: f37cac4aac126e14cab3823b926cf680, type: 2}
+  m_Motion: {fileID: 7400000, guid: 8f7cfb5463a67744e882219686b95e1d, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -55,7 +55,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NarrativeButton
+  m_Name: NarrativePanel
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: state
@@ -148,7 +148,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d831be1f7e2b1d242862b5b272730637, type: 2}
+  m_Motion: {fileID: 7400000, guid: aa6bd22cd2eb8ec41aaa490e63fc3b12, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -206,7 +206,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: e768809113e1f8742bf3227b6d04a2c2, type: 2}
+  m_Motion: {fileID: 7400000, guid: da7d962ca36a20848950a2ff105c509d, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -258,7 +258,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 5363cf42223d08a4bb3cf91dbdb7fcb6, type: 2}
+  m_Motion: {fileID: 7400000, guid: 947f8a082fb4523469b2a81ebf2f9191, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

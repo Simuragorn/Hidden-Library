@@ -14,5 +14,11 @@ namespace Assets.Scripts.Consts
             public const int ShowIconValue = 0;
             public const int HideIconValue = 2;
         }
+        public static class NarrativePanel 
+        {
+            public const int ShowPanelValue = 0;
+            public const int HidePanelValue = 2;
+        }
+
     }
 }

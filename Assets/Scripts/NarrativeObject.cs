@@ -5,9 +5,11 @@ using UnityEngine;
 public class NarrativeObject : MonoBehaviour
 {
     [SerializeField] NarrativeObjectButton narrativeButton;
+    [SerializeField] private string displayingText;
 
     private void Start()
     {
+        narrativeButton.Init(displayingText);
         narrativeButton.HideIcon();
     }
 
