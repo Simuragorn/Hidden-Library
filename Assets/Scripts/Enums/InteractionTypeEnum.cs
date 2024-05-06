@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Enums
 {
-    public enum InteractableObjectTypeEnum
+    public enum InteractionTypeEnum
     {
-        Watchable,
-        Takable,
-        Usable
+        Watching,
+        Taking,
+        Usage
     }
 }

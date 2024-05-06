@@ -36,6 +36,11 @@ public class Player : MonoBehaviour
         HandleVFXFlip();
     }
 
+    public void AddItemToInventory(InventoryItem inventoryItem)
+    {
+        playerInventory.AddItem(inventoryItem);
+    }
+
     private void HandleVFXFlip()
     {
         float xMovementDirection = playerMovement.MovementDirection.x;
@@ -56,40 +61,15 @@ public class Player : MonoBehaviour
         float distanceToTarget = Vector2.Distance(interactableTarget.transform.position, transform.position);
         if (distanceToTarget < InteractableObjectConsts.MaxInteractionDistance)
         {
-            TryInteract();
+            ShowInteractions();
             interactableTarget = null;
             playerMovement.ResetTarget();
         }
     }
 
-    private void TryInteract()
+    private void ShowInteractions()
     {
-        InteractableObjectTypeEnum interactionType = interactableTarget.AllowedInteractions.FirstOrDefault();
-        Interact(interactionType);
-    }
-
-    private void Interact(InteractableObjectTypeEnum interactionType)
-    {
-        switch (interactionType)
-        {
-            case InteractableObjectTypeEnum.Watchable:
-                {
-                    Debug.Log($"Watching {interactableTarget.gameObject.name}");
-                }
-                break;
-            case InteractableObjectTypeEnum.Takable:
-                {
-                    Debug.Log($"Taking {interactableTarget.gameObject.name}");
-                    playerInventory.AddItem(interactableTarget.ItemPrefab);
-                }
-                break;
-            case InteractableObjectTypeEnum.Usable:
-                {
-                    Debug.Log($"Using {interactableTarget.gameObject.name}");
-                }
-                break;
-        }
-        interactableTarget.InteractAs(interactionType);
+        interactableTarget.ShowInteractions();
     }
 
     private void HandleNewMovementTarget()
