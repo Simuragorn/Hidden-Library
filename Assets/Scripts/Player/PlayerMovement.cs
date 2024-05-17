@@ -1,18 +1,27 @@
 using Assets.Scripts.Consts;
 using Assets.Scripts.Dto;
+using Spine.Unity;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed;
+    [SerializeField] private SkeletonAnimation skeletonAnimator;
     public Vector2 MovementDirection { get; private set; }
     private Vector2? targetPoint;
     private BuildedRoute currentRoute;
+    private Vector2 oldPosition;
+
+    private void Start()
+    {
+        SetWalkingAnimation();
+    }
 
     private void Update()
     {
         HandleRoute();
         HandleMovement();
+        HandleAnimation(transform.position, oldPosition);
     }
 
     public void ResetTarget()
@@ -66,6 +75,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleMovement()
     {
+        oldPosition = (Vector2)transform.position;
         MovementDirection = Vector2.zero;
         if (targetPoint == null)
         {
@@ -84,6 +94,28 @@ public class PlayerMovement : MonoBehaviour
         }
         MovementDirection = direction;
         transform.position = newPosition;
+    }
+
+    private void HandleAnimation(Vector2 newPosition, Vector2 oldPosition)
+    {
+        bool playerMoved = Vector2.Distance(oldPosition, newPosition) > CalculationConsts.MathOffset;
+        if (playerMoved && skeletonAnimator.AnimationName == AnimationConsts.Character.IdleAnimationName)
+        {
+            SetWalkingAnimation();
+        }
+        else if (!playerMoved && skeletonAnimator.AnimationName == AnimationConsts.Character.WalkingAnimationName)
+        {
+            SetIdleAnimation();
+        }
+    }
+
+    private void SetIdleAnimation()
+    {
+        skeletonAnimator.AnimationState.SetAnimation(0, AnimationConsts.Character.IdleAnimationName, true);
+    }
+    private void SetWalkingAnimation()
+    {
+        skeletonAnimator.AnimationState.SetAnimation(0, AnimationConsts.Character.WalkingAnimationName, true);
     }
 
     private void OnDrawGizmos()

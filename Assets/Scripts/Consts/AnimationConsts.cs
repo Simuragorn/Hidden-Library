@@ -20,5 +20,10 @@ namespace Assets.Scripts.Consts
             public const int HidePanelValue = 2;
         }
 
+        public static class Character
+        {
+            public const string IdleAnimationName = "idle";
+            public const string WalkingAnimationName = "walk";
+        }
     }
 }

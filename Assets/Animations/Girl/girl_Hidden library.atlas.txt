@@ -1,0 +1,102 @@
+girl_Hidden library.png
+size:1988,2004
+filter:Linear,Linear
+pma:true
+arm_L
+bounds:338,1736,210,520
+rotate:90
+arm_R
+bounds:393,1137,317,492
+rotate:90
+bangs
+bounds:0,700,437,485
+rotate:90
+body
+bounds:1190,394,572,653
+rotate:90
+body_back
+bounds:1233,1931,217,71
+boot_L
+bounds:1031,1334,428,286
+boot_R
+bounds:1459,1316,426,304
+bow
+bounds:1642,1831,171,344
+rotate:90
+brows
+bounds:597,1948,249,54
+closed eye_L
+bounds:533,1951,64,51
+closed eye_R
+bounds:846,1946,82,56
+down_L
+bounds:0,1980,56,22
+down_R
+bounds:56,1974,79,28
+face
+bounds:1477,966,350,363
+rotate:90
+hair (front layer)
+bounds:485,491,499,705
+rotate:90
+lips
+bounds:135,1969,78,33
+mitten + leg_L
+bounds:0,1454,259,1031
+rotate:90
+mitten + leg_R
+bounds:0,0,491,1037
+rotate:90
+neck
+bounds:0,1770,182,338
+rotate:90
+nose
+bounds:1145,1938,64,88
+rotate:90
+palm_L
+bounds:858,1713,218,467
+rotate:90
+palm_R
+bounds:0,1141,313,393
+rotate:90
+pupils
+bounds:274,1952,178,50
+shadow_neck
+bounds:1450,1861,141,192
+offsets:98,0,291,207
+rotate:90
+shoulder_L
+bounds:1325,1620,211,606
+rotate:90
+shoulder_R
+bounds:885,990,326,592
+rotate:90
+up_L
+bounds:213,1954,61,48
+up_R
+bounds:452,1952,81,50
+whites
+bounds:928,1939,217,63
+
+girl_Hidden library_2.png
+size:1804,1364
+filter:Linear,Linear
+pma:true
+hair (back)
+bounds:1037,677,687,764
+rotate:90
+jacket (front)
+bounds:0,0,677,1074
+rotate:90
+jacket_back
+bounds:0,714,650,1037
+offsets:0,0,673,1037
+rotate:90
+
+girl_Hidden library_3.png
+size:1000,1684
+filter:Linear,Linear
+pma:true
+skirt
+bounds:0,0,1000,1684
+offsets:0,0,1000,1693
