@@ -46,7 +46,6 @@ public class Player : MonoBehaviour
             Vector3 vfxScale = VFX.transform.localScale;
             vfxScale.x = xMovementDirection > 0 ? -1 : 1;
             VFX.transform.localScale = vfxScale;
-            Debug.Log(VFX.transform.localScale.x);
         }
     }
 

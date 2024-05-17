@@ -5603,7 +5603,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VFX: {fileID: 1455033467}
-  Animator: {fileID: 650995353}
 --- !u!114 &563046216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6044,7 +6043,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
