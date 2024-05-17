@@ -24,6 +24,7 @@ namespace Assets.Scripts.Consts
         {
             public const string IdleAnimationName = "idle";
             public const string WalkingAnimationName = "walk";
+            public const string TakeHighObjectAnimationName = "action: pick up high object";
         }
     }
 }

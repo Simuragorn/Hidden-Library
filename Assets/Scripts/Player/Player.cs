@@ -11,6 +11,7 @@ using UnityEngine.EventSystems;
 public class Player : MonoBehaviour
 {
     [SerializeField] private GameObject VFX;
+    [SerializeField] private SkeletonAnimation skeletonAnimator;
     private PlayerInventory playerInventory;
     private PlayerMovement playerMovement;
     private RouteManager routeManager;
@@ -23,6 +24,13 @@ public class Player : MonoBehaviour
         routeManager = FindAnyObjectByType<RouteManager>();
 
         UILayer = LayerMask.NameToLayer(LayerNameConsts.UI);
+
+        playerMovement.Init(this);
+    }
+
+    private void Start()
+    {
+        TrySetIdleAnimation();
     }
 
     private void Update()
@@ -31,10 +39,37 @@ public class Player : MonoBehaviour
         HandleInteraction();
         HandleInteractableTarget();
         HandleVFXFlip();
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            TrySetTakingItemAnimation();
+        }
+    }
+
+    public void TrySetIdleAnimation()
+    {
+        if (skeletonAnimator.AnimationName == null || skeletonAnimator.AnimationName == AnimationConsts.Character.WalkingAnimationName)
+        {
+            skeletonAnimator.AnimationState.SetAnimation(0, AnimationConsts.Character.IdleAnimationName, true);
+        }
+    }
+    public void TrySetWalkingAnimation()
+    {
+        if (skeletonAnimator.AnimationName == AnimationConsts.Character.IdleAnimationName)
+        {
+            skeletonAnimator.AnimationState.SetAnimation(0, AnimationConsts.Character.WalkingAnimationName, true);
+        }
+    }
+
+    private void TrySetTakingItemAnimation()
+    {
+        skeletonAnimator.AnimationState.SetAnimation(0, AnimationConsts.Character.TakeHighObjectAnimationName, false);
+        skeletonAnimator.AnimationState.AddAnimation(0, AnimationConsts.Character.IdleAnimationName, true, 0);
     }
 
     public void AddItemToInventory(InventoryItem inventoryItem)
     {
+        TrySetTakingItemAnimation();
         playerInventory.AddItem(inventoryItem);
     }
 

@@ -6,22 +6,22 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed;
-    [SerializeField] private SkeletonAnimation skeletonAnimator;
+    private Player player;
     public Vector2 MovementDirection { get; private set; }
     private Vector2? targetPoint;
     private BuildedRoute currentRoute;
     private Vector2 oldPosition;
-
-    private void Start()
-    {
-        SetWalkingAnimation();
-    }
 
     private void Update()
     {
         HandleRoute();
         HandleMovement();
         HandleAnimation(transform.position, oldPosition);
+    }
+
+    public void Init(Player currentPlayer)
+    {
+        player = currentPlayer;
     }
 
     public void ResetTarget()
@@ -81,7 +81,8 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-        if (Vector2.Distance(transform.position, targetPoint.Value) < CalculationConsts.DistanceOffset)
+        bool isReachedPoint = CheckIsReachedPoint();
+        if (isReachedPoint)
         {
             targetPoint = null;
             return;
@@ -96,26 +97,32 @@ public class PlayerMovement : MonoBehaviour
         transform.position = newPosition;
     }
 
+    private bool CheckIsReachedPoint()
+    {
+        bool isReachedPoint = Vector2.Distance(transform.position, targetPoint.Value) < CalculationConsts.DistanceOffset;
+        if (currentRoute == null)
+        {
+            targetPoint = new Vector2(targetPoint.Value.x, transform.position.y);
+            if (!isReachedPoint)
+            {
+                isReachedPoint = Mathf.Abs(targetPoint.Value.x - transform.position.x) < CalculationConsts.DistanceOffset;
+            }
+        }
+
+        return isReachedPoint;
+    }
+
     private void HandleAnimation(Vector2 newPosition, Vector2 oldPosition)
     {
         bool playerMoved = Vector2.Distance(oldPosition, newPosition) > CalculationConsts.MathOffset;
-        if (playerMoved && skeletonAnimator.AnimationName == AnimationConsts.Character.IdleAnimationName)
+        if (playerMoved)
         {
-            SetWalkingAnimation();
+           player.TrySetWalkingAnimation();
         }
-        else if (!playerMoved && skeletonAnimator.AnimationName == AnimationConsts.Character.WalkingAnimationName)
+        else if (!playerMoved)
         {
-            SetIdleAnimation();
+           player.TrySetIdleAnimation();
         }
-    }
-
-    private void SetIdleAnimation()
-    {
-        skeletonAnimator.AnimationState.SetAnimation(0, AnimationConsts.Character.IdleAnimationName, true);
-    }
-    private void SetWalkingAnimation()
-    {
-        skeletonAnimator.AnimationState.SetAnimation(0, AnimationConsts.Character.WalkingAnimationName, true);
     }
 
     private void OnDrawGizmos()
