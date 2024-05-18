@@ -22,7 +22,7 @@ namespace Assets.Scripts.Consts
 
         public static class Character
         {
-            public const string IdleAnimationName = "idle";
+            public const string IdleAnimationName = "idle with blinking";
             public const string WalkingAnimationName = "walk";
             public const string TakeHighObjectAnimationName = "action: pick up high object";
         }
