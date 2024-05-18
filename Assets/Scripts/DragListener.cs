@@ -3,14 +3,21 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Collider2D))]
-public class DragListener : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
+public class DragListener : MonoBehaviour
 {
     private Collider2D draggingCollider;
     [SerializeField] protected bool isDragging;
     Vector2 mouseOffset;
     protected Transform targetTransform;
-
+    protected SpriteRenderer spriteRenderer;
+    public int DisplayOrder => spriteRenderer.sortingOrder;
     public bool IsDragging => isDragging;
+
+    public void Init(SpriteRenderer currentSpriteRenderer)
+    {
+        spriteRenderer = currentSpriteRenderer;
+    }
+
 
     private void Awake()
     {
@@ -22,7 +29,7 @@ public class DragListener : MonoBehaviour, IPointerClickHandler, IPointerDownHan
         this.targetTransform = targetTransform;
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnDrag()
     {
         Vector2 mousePosition = GetMousePosition();
         mouseOffset = (Vector2)targetTransform.position - mousePosition;
@@ -45,9 +52,10 @@ public class DragListener : MonoBehaviour, IPointerClickHandler, IPointerDownHan
         }
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public void OnRelease()
     {
         isDragging = false;
+        Debug.Log("Pointer up");
     }
     public Vector2 GetMousePosition()
     {
@@ -57,10 +65,5 @@ public class DragListener : MonoBehaviour, IPointerClickHandler, IPointerDownHan
     public Vector2 GetNewPosition()
     {
         return GetMousePosition() + mouseOffset;
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        Debug.Log("Clicked");
     }
 }

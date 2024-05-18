@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2162241469434945959}
   - component: {fileID: 645127548445419638}
   - component: {fileID: 5444885872777886393}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DragListener
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -201,7 +201,7 @@ GameObject:
   - component: {fileID: 984865863241534808}
   - component: {fileID: 180501271864381914}
   - component: {fileID: 3767752920996076922}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cup-1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -301,7 +301,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!60 &180501271864381914
 PolygonCollider2D:

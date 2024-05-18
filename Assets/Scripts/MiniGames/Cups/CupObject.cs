@@ -6,7 +6,8 @@ using UnityEngine;
 public class CupObject : DraggableObject
 {
     private Rigidbody2D rigidbody;
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    public int DisplayOrder => spriteRenderer.sortingOrder;
+    public DragListener DragListener => dragListener;
 
     protected override void Awake()
     {
