@@ -253,6 +253,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   balancingObjectPrefabs:
   - {fileID: 8410254668092587958, guid: d720cbfc180503244be3e731bddc7add, type: 3}
+  - {fileID: 1253648899281056033, guid: 2412a11d0864c77449951e9ee5eec858, type: 3}
+  - {fileID: 1725970167781982571, guid: 949daded3004a22499d6eb864e94f8f1, type: 3}
+  useJoints: 0
 --- !u!4 &415914241
 Transform:
   m_ObjectHideFlags: 0

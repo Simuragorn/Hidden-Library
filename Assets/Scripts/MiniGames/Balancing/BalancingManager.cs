@@ -7,6 +7,7 @@ using UnityEngine;
 public class BalancingManager : MonoBehaviour
 {
     [SerializeField] private List<BalancingObject> balancingObjectPrefabs;
+    [SerializeField] private bool useJoints = true;
     private List<BalancingObject> balancingObjects = new();
     private BalancingBasisObject basisObject;
 
@@ -66,6 +67,10 @@ public class BalancingManager : MonoBehaviour
         Quaternion rotation = previousObject.transform.rotation * Quaternion.Euler(suitableObjectPosition.LocalRotation);
         BalancingObject newBalancingObject = Instantiate(suitablePrefab, position, rotation);
         Rigidbody2D connectedRigidbody = (previousObject is BalancingBasisObject) ? null : previousObject.Rigidbody;
+        if (!useJoints)
+        {
+            connectedRigidbody = null;
+        }
         newBalancingObject.Init(displayOrder, connectedRigidbody);
         balancingObjects.Add(newBalancingObject);
     }
