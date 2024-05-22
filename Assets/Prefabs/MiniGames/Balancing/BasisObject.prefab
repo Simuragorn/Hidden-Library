@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 50
-  m_Sprite: {fileID: 21300000, guid: 9f3e929e55c568345bca2b44b1ad2f6d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fcc0f5c4604989446996394c62fc13b8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -95,8 +95,8 @@ GameObject:
   - component: {fileID: 1772155074889504573}
   - component: {fileID: 3489082151118683902}
   - component: {fileID: 2740512595633201772}
-  - component: {fileID: 8653907600868833455}
-  - component: {fileID: 3474490430242552523}
+  - component: {fileID: 3394865103925385191}
+  - component: {fileID: 6599219426689220631}
   m_Layer: 0
   m_Name: BasisObject
   m_TagString: Untagged
@@ -185,7 +185,7 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!60 &8653907600868833455
+--- !u!60 &3394865103925385191
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -229,25 +229,23 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 1.673349, y: 1.1100404}
-      - {x: 1.5062997, y: -1.6905711}
-      - {x: -0.689798, y: -1.7466993}
-      - {x: -1.01014, y: 0.97509694}
-      - {x: -1.203259, y: 1.4502864}
-      - {x: -1.1744444, y: 0.7986243}
-      - {x: -1.7985479, y: 0.836977}
-      - {x: -1.9352813, y: 0.24633074}
-      - {x: -1.2276089, y: -0.74181414}
-      - {x: -1.533889, y: -1.007453}
-      - {x: -1.3148332, y: -1.306633}
-      - {x: -0.9631432, y: -1.1773362}
-      - {x: -0.8413761, y: -1.795204}
-      - {x: -0.6478779, y: -1.9946513}
-      - {x: 1.2687922, y: -1.9605894}
-      - {x: 1.6585026, y: -1.6402318}
-      - {x: 1.9132631, y: 1.4513814}
+    - - {x: 1.9966908, y: 1.0341355}
+      - {x: 1.8991214, y: -1.8372504}
+      - {x: 1.0313923, y: -2.3293893}
+      - {x: -0.95350426, y: -2.0199156}
+      - {x: -1.1583024, y: 1.0957733}
+      - {x: -1.3911097, y: 1.4419993}
+      - {x: -2.2132688, y: 1.1107643}
+      - {x: -2.4255102, y: 0.28127337}
+      - {x: -1.6977482, y: -0.6142553}
+      - {x: -1.2544292, y: -1.0833113}
+      - {x: -1.2973012, y: -1.9947014}
+      - {x: -0.60705936, y: -2.3920317}
+      - {x: 1.1558826, y: -2.549218}
+      - {x: 2.0294354, y: -2.1415458}
+      - {x: 2.2882197, y: 1.4791163}
   m_UseDelaunayMesh: 0
---- !u!114 &3474490430242552523
+--- !u!114 &6599219426689220631
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -262,11 +260,11 @@ MonoBehaviour:
   balancingObjectPositions:
   - BalancingObjectType: 1
     LocalPosition:
-      x: 0.49
+      x: 0.4900001
       y: 2.35
     LocalRotation:
       x: 0
       y: 0
       z: -5.99
-      w: 0
   spriteRenderer: {fileID: 2633416198408837228}
+  type: 0

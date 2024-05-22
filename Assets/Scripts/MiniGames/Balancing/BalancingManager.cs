@@ -43,15 +43,13 @@ public class BalancingManager : MonoBehaviour
 
     private void Spawn()
     {
-        Transform lowerBalancingObject = basisObject.transform;
-        int displayOrder = basisObject.DisplayOrder - 1;
-        IReadOnlyList<BalancingObjectPosition> availableObjectPositions = basisObject.BalancingObjectPositions;
+        BalancingObject previousObject = basisObject;
+
         if (balancingObjects.Any())
         {
-            availableObjectPositions = balancingObjects.Last().BalancingObjectPositions;
-            lowerBalancingObject = balancingObjects.Last().transform;
-            displayOrder = balancingObjects.Last().DisplayOrder - 1;
+            previousObject = balancingObjects.Last();
         }
+        IReadOnlyList<BalancingObjectPosition> availableObjectPositions = previousObject.BalancingObjectPositions;
         List<BalancingObjectTypeEnum> availableTypes = availableObjectPositions.Select(op => op.BalancingObjectType).ToList();
         List<BalancingObject> suitablePrefabs = balancingObjectPrefabs.Where(p => availableTypes.Contains(p.Type)).ToList();
         if (!suitablePrefabs.Any())
@@ -63,11 +61,12 @@ public class BalancingManager : MonoBehaviour
         var suitablePrefab = suitablePrefabs[objectIndex];
         var suitableObjectPosition = availableObjectPositions.First(p => p.BalancingObjectType == suitablePrefab.Type);
 
-
-        Vector2 position = (Vector2)lowerBalancingObject.transform.TransformPoint((Vector2)suitableObjectPosition.LocalPosition);
-        Quaternion rotation = lowerBalancingObject.transform.rotation * Quaternion.Euler(suitableObjectPosition.LocalRotation);
+        int displayOrder = previousObject.DisplayOrder - 1;
+        Vector2 position = (Vector2)previousObject.transform.TransformPoint((Vector2)suitableObjectPosition.LocalPosition);
+        Quaternion rotation = previousObject.transform.rotation * Quaternion.Euler(suitableObjectPosition.LocalRotation);
         BalancingObject newBalancingObject = Instantiate(suitablePrefab, position, rotation);
-        newBalancingObject.SetDisplayOrder(displayOrder);
+        Rigidbody2D connectedRigidbody = (previousObject is BalancingBasisObject) ? null : previousObject.Rigidbody;
+        newBalancingObject.Init(displayOrder, connectedRigidbody);
         balancingObjects.Add(newBalancingObject);
     }
 }

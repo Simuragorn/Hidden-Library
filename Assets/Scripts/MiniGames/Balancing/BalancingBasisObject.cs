@@ -3,12 +3,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.MiniGames.Balancing
 {
-    public class BalancingBasisObject : MonoBehaviour
+    public class BalancingBasisObject : BalancingObject
     {
-        [SerializeField] private List<BalancingObjectPosition> balancingObjectPositions;
-        [SerializeField] private SpriteRenderer spriteRenderer;
-        public IReadOnlyList<BalancingObjectPosition> BalancingObjectPositions => balancingObjectPositions;
-
-        public int DisplayOrder => spriteRenderer.sortingOrder;
     }
 }
