@@ -132,7 +132,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 30
   m_LinearDrag: 50
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -268,4 +268,3 @@ MonoBehaviour:
       z: -5.99
   spriteRenderer: {fileID: 2633416198408837228}
   type: 2
-  movementVelocity: 7

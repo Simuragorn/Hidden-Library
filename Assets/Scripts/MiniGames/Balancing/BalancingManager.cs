@@ -6,10 +6,22 @@ using UnityEngine;
 
 public class BalancingManager : MonoBehaviour
 {
-    [SerializeField] private List<BalancingObject> balancingObjectPrefabs;
+    [SerializeField] private float attentionHintAngle = 20;
+    [SerializeField] private float movementVelocity = 15f;
+    [SerializeField] private float rotationSpeed = 15f;
     [SerializeField] private bool useJoints = true;
+
+    [SerializeField] private List<BalancingObject> balancingObjectPrefabs;
+
+    [SerializeField] private GameObject leftUserHint;
+    [SerializeField] private GameObject rightUserHint;
+
+
     private List<BalancingObject> balancingObjects = new();
     private BalancingBasisObject basisObject;
+
+    public float MovementVelocity => movementVelocity;
+    public float RotationSpeed => rotationSpeed;
 
     private void Start()
     {
@@ -18,8 +30,24 @@ public class BalancingManager : MonoBehaviour
 
     void Update()
     {
+        basisObject.SetMovementData(movementVelocity, rotationSpeed);
         HandleSpawn();
         HandleClear();
+        HandleUserHint();
+    }
+
+    private void HandleUserHint()
+    {
+        float towerRotationAngle = 0;
+        if (balancingObjects.Any())
+        {
+            BalancingObject lastObject = balancingObjects.Last();
+            towerRotationAngle = lastObject.transform.rotation.eulerAngles.z;
+        }
+        float absoluteAngle = towerRotationAngle > 180 ? 360 - towerRotationAngle : towerRotationAngle;
+        bool showAttentionHint = absoluteAngle > attentionHintAngle;
+        rightUserHint.SetActive(towerRotationAngle > 180 && showAttentionHint);
+        leftUserHint.SetActive(towerRotationAngle < 180 && showAttentionHint);
     }
 
     private void HandleClear()

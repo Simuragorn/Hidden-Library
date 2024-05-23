@@ -5,11 +5,28 @@ namespace Assets.Scripts.MiniGames.Balancing
 {
     public class BalancingBasisObject : BalancingObject
     {
-        [SerializeField] private float movementVelocity = 2f;
+        private float movementVelocity;
+        private float rotationSpeed;
         private float forcedVelocity;
+
+        public void SetMovementData(float newVelocity, float newRotationSpeed)
+        {
+            movementVelocity = newVelocity;
+            rotationSpeed = newRotationSpeed;
+        }
+
         private void Update()
         {
-            float horizontalAxis = Input.GetAxisRaw("Horizontal");
+            HandleMovement();
+
+            float verticalAxis = Input.GetAxisRaw("Vertical");
+            float rotationAmount = verticalAxis * rotationSpeed * Time.deltaTime;
+            transform.Rotate(0, 0, rotationAmount);
+        }
+
+        private void HandleMovement()
+        {
+            float horizontalAxis = Input.GetAxis("Horizontal");
             forcedVelocity = horizontalAxis > 0 ? 1 * movementVelocity : -1 * movementVelocity;
             if (horizontalAxis == 0)
             {
