@@ -6,6 +6,7 @@ using UnityEngine;
 public class CursorManager : MonoBehaviour
 {
     [SerializeField] private bool allowMultipleDrag = false;
+    private List<DragListener> dragListeners = new List<DragListener>();
     void Update()
     {
         DragObjects();
@@ -14,8 +15,7 @@ public class CursorManager : MonoBehaviour
     private void DragObjects()
     {
         bool dragging = Input.GetMouseButtonDown(0);
-        bool releasing = Input.GetMouseButtonUp(0);
-        if (!dragging && !releasing)
+        if (!dragging)
         {
             return;
         }
@@ -33,10 +33,6 @@ public class CursorManager : MonoBehaviour
                 {
                     return;
                 }
-            }
-            if (releasing)
-            {
-                dragListener.OnRelease();
             }
         }
     }

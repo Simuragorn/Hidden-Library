@@ -6,9 +6,7 @@ using UnityEngine.EventSystems;
 public class DragListener : MonoBehaviour
 {
     private Collider2D draggingCollider;
-    [SerializeField] protected bool isDragging;
-    Vector2 mouseOffset;
-    protected Transform targetTransform;
+    protected bool isDragging;
     protected SpriteRenderer spriteRenderer;
     public int DisplayOrder => spriteRenderer.sortingOrder;
     public bool IsDragging => isDragging;
@@ -18,21 +16,23 @@ public class DragListener : MonoBehaviour
         spriteRenderer = currentSpriteRenderer;
     }
 
-
     private void Awake()
     {
         draggingCollider = GetComponent<Collider2D>();
     }
 
-    public void SetDraggableTarget(Transform targetTransform)
+    private void Update()
     {
-        this.targetTransform = targetTransform;
+        bool releasing = Input.GetMouseButtonUp(0);
+        if (isDragging && releasing)
+        {
+            OnRelease();
+        }
     }
 
     public void OnDrag()
     {
         Vector2 mousePosition = GetMousePosition();
-        mouseOffset = (Vector2)targetTransform.position - mousePosition;
         Vector3 point = new Vector3(mousePosition.x, mousePosition.y, draggingCollider.bounds.center.z);
         if (draggingCollider.bounds.Contains(point))
         {
@@ -60,10 +60,5 @@ public class DragListener : MonoBehaviour
     public Vector2 GetMousePosition()
     {
         return Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    }
-
-    public Vector2 GetNewPosition()
-    {
-        return GetMousePosition() + mouseOffset;
     }
 }
