@@ -7,14 +7,7 @@ public class DragListener : MonoBehaviour
 {
     private Collider2D draggingCollider;
     protected bool isDragging;
-    protected SpriteRenderer spriteRenderer;
-    public int DisplayOrder => spriteRenderer.sortingOrder;
     public bool IsDragging => isDragging;
-
-    public void Init(SpriteRenderer currentSpriteRenderer)
-    {
-        spriteRenderer = currentSpriteRenderer;
-    }
 
     private void Awake()
     {

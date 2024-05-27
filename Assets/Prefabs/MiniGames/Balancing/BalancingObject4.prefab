@@ -259,9 +259,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragListener: {fileID: 7944254922141372473}
-  spriteRenderer: {fileID: 2633416198408837228}
+  jointFrequency: 1
+  jointDamping: 5
   isTouched: 0
   isDraggable: 1
+  spriteRenderer: {fileID: 2633416198408837228}
 --- !u!1 &4712092421943058000
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,4 +367,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0035b2097284207419c7bd93d65ccfda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDragging: 0

@@ -10,19 +10,70 @@ public class BalancingManager : MonoBehaviour
     [SerializeField] private float movementVelocity = 15f;
     [SerializeField] private float rotationSpeed = 15f;
     [SerializeField] private bool useJoints = true;
+    [SerializeField] private int baseObjectDisplayOrder = 15;
+    [SerializeField] private int defaultObjectDisplayOrder = 5;
 
+    [SerializeField] private BalancingObject baseObject;
     [SerializeField] private GameObject leftUserHint;
     [SerializeField] private GameObject rightUserHint;
 
-
-    private List<BalancingObject> balancingObjects = new();
+    [SerializeField] private List<BalancingObject> balancingObjects = new();
+    [SerializeField] private List<BalancingObject> towerObjects = new();
 
     public float MovementVelocity => movementVelocity;
     public float RotationSpeed => rotationSpeed;
 
+    private void Start()
+    {
+        baseObject.Rigidbody.bodyType = RigidbodyType2D.Kinematic;
+        RecalculateTower();
+    }
+
     void Update()
     {
         HandleUserHint();
+    }
+
+    public void AddBalancingObject(BalancingObject newBalancingObject)
+    {
+        newBalancingObject.OnCollisionHappened += NewBalancingObject_OnCollisionHappened;
+        balancingObjects.Add(newBalancingObject);
+    }
+
+    public void RemoveBalancingObject(BalancingObject balancingObject)
+    {
+        if (balancingObjects.Contains(balancingObject))
+        {
+            balancingObject.OnCollisionHappened -= NewBalancingObject_OnCollisionHappened;
+            balancingObjects.Remove(balancingObject);
+        }
+    }
+
+    private void NewBalancingObject_OnCollisionHappened(object sender, BalancingObject balancingObject)
+    {
+        RecalculateTower();
+    }
+
+    private void RecalculateTower()
+    {
+        towerObjects.Clear();
+        BalancingObject connectedObject = baseObject;
+        BalancingObject previousObject = baseObject;
+        int currentObjectDisplayOrder = baseObjectDisplayOrder;
+        while (connectedObject != null)
+        {
+            towerObjects.Add(connectedObject);
+            connectedObject.SetDisplayOrder(currentObjectDisplayOrder);
+            currentObjectDisplayOrder--;
+            var tmpObject = connectedObject;
+            connectedObject = connectedObject.ConnectedObjects.FirstOrDefault(co => co != previousObject);
+            previousObject = tmpObject;
+        }
+        //var objectsNotInTower = balancingObjects.Where(bo => !towerObjects.Contains(bo)).ToList();
+        //foreach (var leftObject in objectsNotInTower)
+        //{
+        //    leftObject.SetDisplayOrder(defaultObjectDisplayOrder);
+        //}
     }
 
     private void HandleUserHint()
