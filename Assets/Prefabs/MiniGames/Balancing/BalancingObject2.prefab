@@ -239,7 +239,7 @@ Rigidbody2D:
   m_Mass: 10
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -326,10 +326,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragListener: {fileID: 4754354446411708594}
-  jointFrequency: 1
+  jointFrequency: 3
   jointDamping: 5
-  isTouched: 0
-  isDraggable: 1
+  maxDraggingVelocity: 15
   spriteRenderer: {fileID: 4756350366366320355}
 --- !u!95 &7194481003150785592
 Animator:
