@@ -26,5 +26,10 @@ namespace Assets.Scripts.Consts
             public const string WalkingAnimationName = "walk";
             public const string TakeHighObjectAnimationName = "action: pick up high object";
         }
+
+        public static class BalancingObject
+        {
+            public const string IsTouchednTriggerName = "isTouched";
+        }
     }
 }

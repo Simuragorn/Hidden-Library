@@ -25,7 +25,7 @@ public class BalancingManager : MonoBehaviour
 
     private void Start()
     {
-        baseObject.Rigidbody.bodyType = RigidbodyType2D.Kinematic;
+        baseObject.SetAsBalancingBaseObject();
         RecalculateTower();
     }
 
@@ -69,11 +69,6 @@ public class BalancingManager : MonoBehaviour
             connectedObject = connectedObject.ConnectedObjects.FirstOrDefault(co => co != previousObject);
             previousObject = tmpObject;
         }
-        //var objectsNotInTower = balancingObjects.Where(bo => !towerObjects.Contains(bo)).ToList();
-        //foreach (var leftObject in objectsNotInTower)
-        //{
-        //    leftObject.SetDisplayOrder(defaultObjectDisplayOrder);
-        //}
     }
 
     private void HandleUserHint()

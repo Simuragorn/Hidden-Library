@@ -1,15 +1,19 @@
-﻿using System;
+﻿using Assets.Scripts.Consts;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.MiniGames.Balancing
 {
     [RequireComponent(typeof(Collider2D))]
+    [RequireComponent(typeof(Animator))]
     public class BalancingObject : DraggableObject
     {
         [SerializeField] private bool isTouched;
-        [SerializeField] private bool isDraggable = true;
         [SerializeField] private SpriteRenderer spriteRenderer;
+        private Collider2D collider;
+        private Animator animator;
+        private bool isDraggable = true;
 
         private List<BalancingObject> connectedObjects = new List<BalancingObject>();
         private BalancingManager balancingManager;
@@ -23,7 +27,30 @@ namespace Assets.Scripts.MiniGames.Balancing
         protected override void Awake()
         {
             base.Awake();
+            collider = GetComponent<Collider2D>();
+            DisablePhysics();
+            dragListener.OnDragStarted += DragListener_OnDragStarted;
             balancingManager = FindObjectOfType<BalancingManager>();
+            animator = GetComponent<Animator>();
+        }
+
+        private void DisablePhysics()
+        {
+            rigidbody.bodyType = RigidbodyType2D.Static;
+            collider.enabled = false;
+        }
+
+        private void DragListener_OnDragStarted(object sender, EventArgs e)
+        {
+            EnablePhysics();
+            isTouched = true;
+            animator.SetBool(AnimationConsts.BalancingObject.IsTouchednTriggerName, true);
+        }
+
+        private void EnablePhysics(bool isBase = false)
+        {
+            rigidbody.bodyType = isBase ? RigidbodyType2D.Kinematic : RigidbodyType2D.Dynamic;
+            collider.enabled = true;
         }
 
         private void Start()
@@ -39,10 +66,12 @@ namespace Assets.Scripts.MiniGames.Balancing
         protected override void Update()
         {
             base.Update();
-            if (dragListener.IsDragging)
-            {
-                isTouched = true;
-            }
+        }
+
+        public void SetAsBalancingBaseObject()
+        {
+            isDraggable = false;
+            EnablePhysics(true);
         }
 
         public void SetDisplayOrder(int displayOrder)

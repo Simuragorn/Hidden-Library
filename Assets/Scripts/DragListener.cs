@@ -8,6 +8,7 @@ public class DragListener : MonoBehaviour
     private Collider2D draggingCollider;
     protected bool isDragging;
     public bool IsDragging => isDragging;
+    public event EventHandler OnDragStarted;
 
     private void Awake()
     {
@@ -30,6 +31,7 @@ public class DragListener : MonoBehaviour
         if (draggingCollider.bounds.Contains(point))
         {
             isDragging = true;
+            OnDragStarted?.Invoke(this, EventArgs.Empty);
         }
     }
 
