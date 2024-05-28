@@ -9,11 +9,10 @@ namespace Assets.Scripts.MiniGames.Balancing
     [RequireComponent(typeof(Animator))]
     public class BalancingObject : DraggableObject
     {
-        [SerializeField] private bool isTouched;
         [SerializeField] private SpriteRenderer spriteRenderer;
+        private bool isTouched;
         private Collider2D collider;
         private Animator animator;
-        private bool isDraggable = true;
 
         private List<BalancingObject> connectedObjects = new List<BalancingObject>();
         private BalancingManager balancingManager;

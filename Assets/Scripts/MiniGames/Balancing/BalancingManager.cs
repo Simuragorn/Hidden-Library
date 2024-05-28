@@ -66,6 +66,11 @@ public class BalancingManager : MonoBehaviour
             connectedObject.SetDisplayOrder(currentObjectDisplayOrder);
             currentObjectDisplayOrder--;
             var tmpObject = connectedObject;
+            if(connectedObject.ConnectedObjects.Count > 1)
+            {
+                Debug.LogError("Multiple collisions in tower forbidden!");
+                return;
+            }
             connectedObject = connectedObject.ConnectedObjects.FirstOrDefault(co => co != previousObject);
             previousObject = tmpObject;
         }

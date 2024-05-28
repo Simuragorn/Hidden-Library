@@ -1,14 +1,15 @@
 using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Collider2D))]
 public class DragListener : MonoBehaviour
 {
     private Collider2D draggingCollider;
     protected bool isDragging;
+    protected DraggableObject draggableObject;
     public bool IsDragging => isDragging;
     public event EventHandler OnDragStarted;
+    public bool IsDraggable => draggableObject.IsDraggable;
 
     private void Awake()
     {
@@ -22,6 +23,11 @@ public class DragListener : MonoBehaviour
         {
             OnRelease();
         }
+    }
+
+    public void Init(DraggableObject currentDraggableObject)
+    {
+        draggableObject = currentDraggableObject;
     }
 
     public void OnDrag()

@@ -25,7 +25,7 @@ public class CursorManager : MonoBehaviour
         List<DragListener> dragListeners = hits.Where(h => h.collider != null).Select(h => h.collider.GetComponent<DragListener>()).Where(e => e != null).ToList();
         foreach (var dragListener in dragListeners)
         {
-            if (dragging)
+            if (dragging && dragListener.IsDraggable)
             {
                 dragListener.OnDrag();
                 if (!allowMultipleDrag)
