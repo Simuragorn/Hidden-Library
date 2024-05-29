@@ -34,9 +34,10 @@ namespace Assets.Scripts.MiniGames.Balancing
             }
             balancingManager = FindObjectOfType<BalancingManager>();
             animator = GetComponent<Animator>();
+            SetDisplayOrder(balancingManager.DefaultStaticObjectDisplayOrder);
         }
 
-        private void DisablePhysics()
+        public void DisablePhysics()
         {
             rigidbody.bodyType = RigidbodyType2D.Static;
             collider.enabled = false;
@@ -44,6 +45,7 @@ namespace Assets.Scripts.MiniGames.Balancing
 
         private void DragListener_OnDragStarted(object sender, EventArgs e)
         {
+            SetDisplayOrder(balancingManager.DefaultDraggingObjectDisplayOrder);
             EnablePhysics();
             isTouched = true;
             animator.SetBool(AnimationConsts.BalancingObject.IsTouchednTriggerName, true);

@@ -3,6 +3,7 @@ using Assets.Scripts.MiniGames.Balancing;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BalancingManager : MonoBehaviour
 {
@@ -11,17 +12,36 @@ public class BalancingManager : MonoBehaviour
     [SerializeField] private float rotationSpeed = 15f;
     [SerializeField] private bool useJoints = true;
     [SerializeField] private int baseObjectDisplayOrder = 15;
-    [SerializeField] private int defaultObjectDisplayOrder = 5;
+    [SerializeField] private int defaultStaticObjectDisplayOrder = 5;
+    [SerializeField] private int defaultDraggingObjectDisplayOrder = 10;
 
     [SerializeField] private BalancingObject baseObject;
-    [SerializeField] private GameObject leftUserHint;
-    [SerializeField] private GameObject rightUserHint;
 
     [SerializeField] private List<BalancingObject> balancingObjects = new();
     [SerializeField] private List<BalancingObject> towerObjects = new();
+    [SerializeField] private GameObject victoryPanel;
+    [SerializeField] private GameObject defeatPanel;
+    private BalancingGround balancingGround;
 
     public float MovementVelocity => movementVelocity;
     public float RotationSpeed => rotationSpeed;
+
+    public int DefaultStaticObjectDisplayOrder => defaultStaticObjectDisplayOrder;
+    public int DefaultDraggingObjectDisplayOrder => defaultDraggingObjectDisplayOrder;
+
+    private void Awake()
+    {
+        balancingGround = FindAnyObjectByType<BalancingGround>();
+        balancingGround.OnBalancingObjectFall += BalancingGround_OnBalancingObjectFall;
+
+        victoryPanel.gameObject.SetActive(false);
+        defeatPanel.gameObject.SetActive(false);
+    }
+
+    private void BalancingGround_OnBalancingObjectFall(object sender, System.EventArgs e)
+    {
+        defeatPanel.gameObject.SetActive(true);
+    }
 
     private void Start()
     {
@@ -29,9 +49,9 @@ public class BalancingManager : MonoBehaviour
         RecalculateTower();
     }
 
-    void Update()
+    public void Restart()
     {
-        HandleUserHint();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void AddBalancingObject(BalancingObject newBalancingObject)
@@ -52,6 +72,19 @@ public class BalancingManager : MonoBehaviour
     private void NewBalancingObject_OnCollisionHappened(object sender, BalancingObject balancingObject)
     {
         RecalculateTower();
+        CheckVictory();
+    }
+
+    private void CheckVictory()
+    {
+        if (towerObjects.Count == balancingObjects.Count)
+        {
+            foreach (var balancingObject in balancingObjects)
+            {
+                balancingObject.DisablePhysics();
+            }
+            victoryPanel.gameObject.SetActive(true);
+        }
     }
 
     private void RecalculateTower()
@@ -74,19 +107,5 @@ public class BalancingManager : MonoBehaviour
             connectedObject = connectedObject.ConnectedObjects.FirstOrDefault(co => co != previousObject);
             previousObject = tmpObject;
         }
-    }
-
-    private void HandleUserHint()
-    {
-        float towerRotationAngle = 0;
-        if (balancingObjects.Any())
-        {
-            BalancingObject lastObject = balancingObjects.Last();
-            towerRotationAngle = lastObject.transform.rotation.eulerAngles.z;
-        }
-        float absoluteAngle = towerRotationAngle > 180 ? 360 - towerRotationAngle : towerRotationAngle;
-        bool showAttentionHint = absoluteAngle > attentionHintAngle;
-        rightUserHint.SetActive(towerRotationAngle > 180 && showAttentionHint);
-        leftUserHint.SetActive(towerRotationAngle < 180 && showAttentionHint);
     }
 }
