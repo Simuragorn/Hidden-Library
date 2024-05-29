@@ -15,7 +15,10 @@ public class DraggableObject : MonoBehaviour
     protected virtual void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
-        dragListener.Init(this);
+        if (dragListener != null)
+        {
+            dragListener.Init(this);
+        }
     }
 
     protected virtual void Update()
@@ -30,7 +33,7 @@ public class DraggableObject : MonoBehaviour
 
     private void LimitVelocity()
     {
-        if (dragListener.IsDragging)
+        if (dragListener != null && dragListener.IsDragging)
         {
             rigidbody.velocity = Vector2.ClampMagnitude(rigidbody.velocity, maxDraggingVelocity);
         }

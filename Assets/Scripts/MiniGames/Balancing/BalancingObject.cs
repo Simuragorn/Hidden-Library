@@ -21,14 +21,17 @@ namespace Assets.Scripts.MiniGames.Balancing
         public IReadOnlyList<BalancingObject> ConnectedObjects => connectedObjects;
 
         public bool IsTouched => isTouched;
-        public bool IsDragging => dragListener.IsDragging;
+        public bool IsDragging => dragListener != null && dragListener.IsDragging;
 
         protected override void Awake()
         {
             base.Awake();
             collider = GetComponent<Collider2D>();
             DisablePhysics();
-            dragListener.OnDragStarted += DragListener_OnDragStarted;
+            if (dragListener != null)
+            {
+                dragListener.OnDragStarted += DragListener_OnDragStarted;
+            }
             balancingManager = FindObjectOfType<BalancingManager>();
             animator = GetComponent<Animator>();
         }
@@ -71,6 +74,8 @@ namespace Assets.Scripts.MiniGames.Balancing
         {
             isDraggable = false;
             EnablePhysics(true);
+            Vector2 bottomVisiblePoint = Camera.main.ViewportToWorldPoint(new Vector2(0.5f, 0));
+            transform.position = new Vector2(bottomVisiblePoint.x, bottomVisiblePoint.y + spriteRenderer.size.y);
         }
 
         public void SetDisplayOrder(int displayOrder)
