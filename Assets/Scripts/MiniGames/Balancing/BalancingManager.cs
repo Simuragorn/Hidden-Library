@@ -51,6 +51,10 @@ public class BalancingManager : MonoBehaviour
 
     public void Restart()
     {
+        foreach (var balancingObject in balancingObjects)
+        {
+            balancingObject.enabled = false;
+        }
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -90,22 +94,24 @@ public class BalancingManager : MonoBehaviour
     private void RecalculateTower()
     {
         towerObjects.Clear();
-        BalancingObject connectedObject = baseObject;
+        BalancingObject currentObject = baseObject;
         BalancingObject previousObject = baseObject;
         int currentObjectDisplayOrder = baseObjectDisplayOrder;
-        while (connectedObject != null)
+        RecalculateTowerPart(currentObject, previousObject, currentObjectDisplayOrder);
+    }
+
+    private void RecalculateTowerPart(BalancingObject currentObject, BalancingObject previousObject, int currentObjectDisplayOrder)
+    {
+        towerObjects.Add(currentObject);
+        currentObject.SetDisplayOrder(currentObjectDisplayOrder);
+        currentObjectDisplayOrder--;
+        var otherConnectedObjects = currentObject.ConnectedObjects.Where(co => co != previousObject);
+        foreach (var connectedObject in otherConnectedObjects)
         {
-            towerObjects.Add(connectedObject);
-            connectedObject.SetDisplayOrder(currentObjectDisplayOrder);
-            currentObjectDisplayOrder--;
-            var tmpObject = connectedObject;
-            if (connectedObject.ConnectedObjects.Where(co => co != previousObject).Count() > 1)
+            if (connectedObject.transform.position.y > currentObject.transform.position.y)
             {
-                Debug.LogError("Multiple collisions in tower forbidden!");
-                return;
+                RecalculateTowerPart(connectedObject, currentObject, currentObjectDisplayOrder);
             }
-            connectedObject = connectedObject.ConnectedObjects.FirstOrDefault(co => co != previousObject);
-            previousObject = tmpObject;
         }
     }
 }

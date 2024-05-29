@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Consts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.MiniGames.Balancing
@@ -10,6 +11,7 @@ namespace Assets.Scripts.MiniGames.Balancing
     public class BalancingObject : DraggableObject
     {
         [SerializeField] private SpriteRenderer spriteRenderer;
+        private List<Collider2D> otherPhysicalColliders;
         private bool isTouched;
         private Collider2D collider;
         private Animator animator;
@@ -27,6 +29,8 @@ namespace Assets.Scripts.MiniGames.Balancing
         {
             base.Awake();
             collider = GetComponent<Collider2D>();
+            otherPhysicalColliders = GetComponentsInChildren<Collider2D>()
+                .Where(c => !c.isTrigger).ToList();
             DisablePhysics();
             if (dragListener != null)
             {
@@ -35,26 +39,6 @@ namespace Assets.Scripts.MiniGames.Balancing
             balancingManager = FindObjectOfType<BalancingManager>();
             animator = GetComponent<Animator>();
             SetDisplayOrder(balancingManager.DefaultStaticObjectDisplayOrder);
-        }
-
-        public void DisablePhysics()
-        {
-            rigidbody.bodyType = RigidbodyType2D.Static;
-            collider.enabled = false;
-        }
-
-        private void DragListener_OnDragStarted(object sender, EventArgs e)
-        {
-            SetDisplayOrder(balancingManager.DefaultDraggingObjectDisplayOrder);
-            EnablePhysics();
-            isTouched = true;
-            animator.SetBool(AnimationConsts.BalancingObject.IsTouchednTriggerName, true);
-        }
-
-        private void EnablePhysics(bool isBase = false)
-        {
-            rigidbody.bodyType = isBase ? RigidbodyType2D.Kinematic : RigidbodyType2D.Dynamic;
-            collider.enabled = true;
         }
 
         private void Start()
@@ -70,6 +54,37 @@ namespace Assets.Scripts.MiniGames.Balancing
         protected override void Update()
         {
             base.Update();
+        }
+
+        private void DragListener_OnDragStarted(object sender, EventArgs e)
+        {
+            if (!IsTouched)
+            {
+                SetDisplayOrder(balancingManager.DefaultDraggingObjectDisplayOrder);
+                EnablePhysics();
+                isTouched = true;
+                animator.SetBool(AnimationConsts.BalancingObject.IsTouchednTriggerName, true);
+            }
+        }
+
+        public void DisablePhysics()
+        {
+            rigidbody.bodyType = RigidbodyType2D.Static;
+            collider.enabled = false;
+            foreach (var collider in otherPhysicalColliders)
+            {
+                collider.enabled = false;
+            }
+        }
+
+        private void EnablePhysics(bool isBase = false)
+        {
+            rigidbody.bodyType = isBase ? RigidbodyType2D.Kinematic : RigidbodyType2D.Dynamic;
+            collider.enabled = true;
+            foreach (var collider in otherPhysicalColliders)
+            {
+                collider.enabled = true;
+            }
         }
 
         public void SetAsBalancingBaseObject()
