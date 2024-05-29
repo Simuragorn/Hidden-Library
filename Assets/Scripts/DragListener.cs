@@ -56,7 +56,6 @@ public class DragListener : MonoBehaviour
     public void OnRelease()
     {
         isDragging = false;
-        Debug.Log("Pointer up");
     }
     public Vector2 GetMousePosition()
     {

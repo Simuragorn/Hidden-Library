@@ -1,9 +1,11 @@
 using Assets.Scripts.Enums;
 using Assets.Scripts.MiniGames.Balancing;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class BalancingManager : MonoBehaviour
 {
@@ -21,7 +23,10 @@ public class BalancingManager : MonoBehaviour
     [SerializeField] private List<BalancingObject> towerObjects = new();
     [SerializeField] private GameObject victoryPanel;
     [SerializeField] private GameObject defeatPanel;
+    [SerializeField] private Button restartButton;
+    [SerializeField] private Button nextLevelButton;
     private BalancingGround balancingGround;
+    private bool isRestarting = false;
 
     public float MovementVelocity => movementVelocity;
     public float RotationSpeed => rotationSpeed;
@@ -34,8 +39,11 @@ public class BalancingManager : MonoBehaviour
         balancingGround = FindAnyObjectByType<BalancingGround>();
         balancingGround.OnBalancingObjectFall += BalancingGround_OnBalancingObjectFall;
 
-        victoryPanel.gameObject.SetActive(false);
-        defeatPanel.gameObject.SetActive(false);
+        victoryPanel.SetActive(false);
+        defeatPanel.SetActive(false);
+
+        restartButton.onClick.AddListener(() => RestartGame());
+        nextLevelButton.onClick.AddListener(() => RestartGame());
     }
 
     private void BalancingGround_OnBalancingObjectFall(object sender, System.EventArgs e)
@@ -49,13 +57,14 @@ public class BalancingManager : MonoBehaviour
         RecalculateTower();
     }
 
-    public void Restart()
+    public void RestartGame()
     {
-        foreach (var balancingObject in balancingObjects)
+        if (isRestarting)
         {
-            balancingObject.enabled = false;
+            return;
         }
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        isRestarting = true;
+        StartCoroutine(RestartWithDelay());
     }
 
     public void AddBalancingObject(BalancingObject newBalancingObject)
@@ -71,6 +80,21 @@ public class BalancingManager : MonoBehaviour
             balancingObject.OnCollisionHappened -= NewBalancingObject_OnCollisionHappened;
             balancingObjects.Remove(balancingObject);
         }
+    }
+
+    private IEnumerator RestartWithDelay()
+    {
+        foreach (var balancingObject in balancingObjects)
+        {
+            balancingObject.enabled = false;
+        }
+        yield return new WaitForEndOfFrame();
+        RestartImmediately();
+    }
+
+    private void RestartImmediately()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void NewBalancingObject_OnCollisionHappened(object sender, BalancingObject balancingObject)
@@ -93,6 +117,10 @@ public class BalancingManager : MonoBehaviour
 
     private void RecalculateTower()
     {
+        if (isRestarting)
+        {
+            return;
+        }
         towerObjects.Clear();
         BalancingObject currentObject = baseObject;
         BalancingObject previousObject = baseObject;
