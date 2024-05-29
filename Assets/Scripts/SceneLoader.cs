@@ -43,7 +43,7 @@ public class SceneLoader : MonoBehaviour
     {
         StringBuilder scenesStringBuilder = new StringBuilder();
         int sceneCount = SceneManager.sceneCountInBuildSettings;
-
+        scenesStringBuilder.AppendLine("Press ESC to exit");
         for (int i = 0; i < sceneCount; i++)
         {
             string scenePath = SceneUtility.GetScenePathByBuildIndex(i);
@@ -56,6 +56,10 @@ public class SceneLoader : MonoBehaviour
 
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
         foreach (var sceneLoadButton in allowedSceneLoadButtons)
         {
             if (Input.GetKeyDown(sceneLoadButton))
