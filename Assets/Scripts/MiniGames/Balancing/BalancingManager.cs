@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class BalancingManager : MonoBehaviour
 {
+    [SerializeField] private bool isCheckVictory;
     [SerializeField] private float attentionHintAngle = 20;
     [SerializeField] private float movementVelocity = 15f;
     [SerializeField] private float rotationSpeed = 15f;
@@ -105,7 +106,7 @@ public class BalancingManager : MonoBehaviour
 
     private void CheckVictory()
     {
-        if (towerObjects.Count == balancingObjects.Count)
+        if (isCheckVictory && towerObjects.Count == balancingObjects.Count)
         {
             foreach (var balancingObject in balancingObjects)
             {
@@ -124,22 +125,26 @@ public class BalancingManager : MonoBehaviour
         towerObjects.Clear();
         BalancingObject currentObject = baseObject;
         BalancingObject previousObject = baseObject;
-        int currentObjectDisplayOrder = baseObjectDisplayOrder;
-        RecalculateTowerPart(currentObject, previousObject, currentObjectDisplayOrder);
+        RecalculateTowerPart(currentObject, previousObject);
     }
 
-    private void RecalculateTowerPart(BalancingObject currentObject, BalancingObject previousObject, int currentObjectDisplayOrder)
+    private void RecalculateTowerPart(BalancingObject currentObject, BalancingObject previousObject)
     {
         towerObjects.Add(currentObject);
-        currentObject.SetDisplayOrder(currentObjectDisplayOrder);
-        currentObjectDisplayOrder--;
-        var otherConnectedObjects = currentObject.ConnectedObjects.Where(co => co != previousObject);
-        foreach (var connectedObject in otherConnectedObjects)
+        int displayOrder = baseObjectDisplayOrder;
+        if (currentObject != baseObject)
         {
-            if (connectedObject.transform.position.y > currentObject.transform.position.y)
-            {
-                RecalculateTowerPart(connectedObject, currentObject, currentObjectDisplayOrder);
-            }
+            float rotation = currentObject.transform.rotation.eulerAngles.z;
+            int displayOffset = rotation > 90 && rotation < 270 ? 1 : -1;
+            displayOrder = previousObject.DisplayOrder + displayOffset;
+        }
+        currentObject.SetDisplayOrder(displayOrder);
+
+        var otherConnectedObjects = currentObject.ConnectedObjects.Where(co => co != previousObject && co.transform.position.y > currentObject.transform.position.y);
+        var neededObject = otherConnectedObjects.OrderByDescending(co => co.ConnectedObjects.Count).FirstOrDefault();
+        if (neededObject != null)
+        {
+            RecalculateTowerPart(neededObject, currentObject);
         }
     }
 }

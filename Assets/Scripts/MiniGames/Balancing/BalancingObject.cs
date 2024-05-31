@@ -11,6 +11,8 @@ namespace Assets.Scripts.MiniGames.Balancing
     public class BalancingObject : DraggableObject
     {
         [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private float angle;
+        [SerializeField] private float isTop;
         private List<Collider2D> otherPhysicalColliders;
         private bool isTouched;
         private Collider2D collider;
@@ -21,6 +23,7 @@ namespace Assets.Scripts.MiniGames.Balancing
         public Rigidbody2D Rigidbody => rigidbody;
         public event EventHandler<BalancingObject> OnCollisionHappened;
         public IReadOnlyList<BalancingObject> ConnectedObjects => connectedObjects;
+        public int DisplayOrder => spriteRenderer.sortingOrder;
 
         public bool IsTouched => isTouched;
         public bool IsDragging => dragListener != null && dragListener.IsDragging;
@@ -54,6 +57,8 @@ namespace Assets.Scripts.MiniGames.Balancing
         protected override void Update()
         {
             base.Update();
+            angle = transform.rotation.eulerAngles.z;
+            isTop = angle > 90 && angle < 270 ? 1 : -1;
         }
 
         private void DragListener_OnDragStarted(object sender, EventArgs e)

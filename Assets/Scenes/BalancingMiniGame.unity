@@ -390,15 +390,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5496869796433521123, guid: 2412a11d0864c77449951e9ee5eec858, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5496869796433521123, guid: 2412a11d0864c77449951e9ee5eec858, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5496869796433521123, guid: 2412a11d0864c77449951e9ee5eec858, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5496869796433521123, guid: 2412a11d0864c77449951e9ee5eec858, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -450,6 +450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9d834369d81b64479078259b6a41d6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCheckVictory: 0
   attentionHintAngle: 15
   movementVelocity: 15
   rotationSpeed: 35
