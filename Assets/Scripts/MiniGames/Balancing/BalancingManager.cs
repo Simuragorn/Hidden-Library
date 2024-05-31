@@ -3,13 +3,14 @@ using Assets.Scripts.MiniGames.Balancing;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BalancingManager : MonoBehaviour
 {
-    [SerializeField] private bool isCheckVictory;
+    [SerializeField] private float victoryDelay = 5f;
     [SerializeField] private float attentionHintAngle = 20;
     [SerializeField] private float movementVelocity = 15f;
     [SerializeField] private float rotationSpeed = 15f;
@@ -26,8 +27,12 @@ public class BalancingManager : MonoBehaviour
     [SerializeField] private GameObject defeatPanel;
     [SerializeField] private Button restartButton;
     [SerializeField] private Button nextLevelButton;
+    [SerializeField] private TextMeshProUGUI victoryDelayTextComponent;
     private BalancingGround balancingGround;
+    private bool isGameFinished = false;
     private bool isRestarting = false;
+    private bool isReadyForVictoryCheck = false;
+    [SerializeField] private float victoryDelayLeft;
 
     public float MovementVelocity => movementVelocity;
     public float RotationSpeed => rotationSpeed;
@@ -37,6 +42,8 @@ public class BalancingManager : MonoBehaviour
 
     private void Awake()
     {
+        victoryDelayLeft = victoryDelay;
+        victoryDelayTextComponent.text = $"Соберите чашки";
         balancingGround = FindAnyObjectByType<BalancingGround>();
         balancingGround.OnBalancingObjectFall += BalancingGround_OnBalancingObjectFall;
 
@@ -47,8 +54,27 @@ public class BalancingManager : MonoBehaviour
         nextLevelButton.onClick.AddListener(() => RestartGame());
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonUp(0))
+        {
+            CheckTowerFinishing();
+        }
+        if (isReadyForVictoryCheck && !isGameFinished)
+        {
+            victoryDelayTextComponent.text = $"Удержите чашки ещё {(int)victoryDelayLeft} секунд";
+            victoryDelayLeft -= Time.deltaTime;
+            if (victoryDelayLeft <= 0)
+            {
+                ShowVictory();
+            }
+        }
+    }
+
     private void BalancingGround_OnBalancingObjectFall(object sender, System.EventArgs e)
     {
+        victoryDelayTextComponent.text = $"Башня развалилась...";
+        isGameFinished = true;
         defeatPanel.gameObject.SetActive(true);
     }
 
@@ -71,7 +97,13 @@ public class BalancingManager : MonoBehaviour
     public void AddBalancingObject(BalancingObject newBalancingObject)
     {
         newBalancingObject.OnCollisionHappened += NewBalancingObject_OnCollisionHappened;
+        newBalancingObject.OnDragStarted += NewBalancingObject_OnDragStarted;
         balancingObjects.Add(newBalancingObject);
+    }
+
+    private void NewBalancingObject_OnDragStarted(object sender, BalancingObject e)
+    {
+        CheckTowerFinishing();
     }
 
     public void RemoveBalancingObject(BalancingObject balancingObject)
@@ -101,24 +133,23 @@ public class BalancingManager : MonoBehaviour
     private void NewBalancingObject_OnCollisionHappened(object sender, BalancingObject balancingObject)
     {
         RecalculateTower();
-        CheckVictory();
+        CheckTowerFinishing();
     }
 
-    private void CheckVictory()
+    private void ShowVictory()
     {
-        if (isCheckVictory && towerObjects.Count == balancingObjects.Count)
+        isGameFinished = true;
+        victoryDelayTextComponent.text = $"Даже не разбилось ничего";
+        foreach (var balancingObject in balancingObjects)
         {
-            foreach (var balancingObject in balancingObjects)
-            {
-                balancingObject.DisablePhysics();
-            }
-            victoryPanel.gameObject.SetActive(true);
+            balancingObject.DisablePhysics();
         }
+        victoryPanel.gameObject.SetActive(true);
     }
 
     private void RecalculateTower()
     {
-        if (isRestarting)
+        if (isGameFinished)
         {
             return;
         }
@@ -146,5 +177,27 @@ public class BalancingManager : MonoBehaviour
         {
             RecalculateTowerPart(neededObject, currentObject);
         }
+    }
+
+    private void CheckTowerFinishing()
+    {
+        isReadyForVictoryCheck = IsTowerFinished();
+        if (!isReadyForVictoryCheck && victoryDelayLeft != victoryDelay)
+        {
+            victoryDelayLeft = victoryDelay;
+            victoryDelayTextComponent.text = $"Соберите чашки";
+        }
+    }
+
+    private bool IsTowerFinished()
+    {
+        if (towerObjects.Count == balancingObjects.Count)
+        {
+            if (balancingObjects.All(bo => !bo.IsDragging))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

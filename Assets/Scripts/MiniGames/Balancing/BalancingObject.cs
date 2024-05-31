@@ -20,6 +20,7 @@ namespace Assets.Scripts.MiniGames.Balancing
         private BalancingManager balancingManager;
         public Rigidbody2D Rigidbody => rigidbody;
         public event EventHandler<BalancingObject> OnCollisionHappened;
+        public event EventHandler<BalancingObject> OnDragStarted;
         public IReadOnlyList<BalancingObject> ConnectedObjects => connectedObjects;
         public int DisplayOrder => spriteRenderer.sortingOrder;
 
@@ -59,8 +60,9 @@ namespace Assets.Scripts.MiniGames.Balancing
 
         private void DragListener_OnDragStarted(object sender, EventArgs e)
         {
+            OnDragStarted?.Invoke(this, this);
             if (!IsTouched)
-            {
+            {                
                 SetDisplayOrder(balancingManager.DefaultDraggingObjectDisplayOrder);
                 EnablePhysics();
                 isTouched = true;
