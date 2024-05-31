@@ -10,10 +10,13 @@ public class DragListener : MonoBehaviour
     public bool IsDragging => isDragging;
     public event EventHandler OnDragStarted;
     public bool IsDraggable => draggableObject.IsDraggable;
+    public Collider2D DraggingCollider => draggingCollider;
+    protected Camera camera;
 
     private void Awake()
     {
         draggingCollider = GetComponent<Collider2D>();
+        camera = Camera.main;
     }
 
     private void Update()

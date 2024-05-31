@@ -9,6 +9,7 @@ public class DraggableObject : MonoBehaviour
     [SerializeField] protected float maxDraggingVelocity = 5f;
     protected Rigidbody2D rigidbody;
     protected TargetJoint2D targetJoint;
+    protected bool isHighlighted = false;
     protected bool isDraggable = true;
     public bool IsDraggable => isDraggable;
 

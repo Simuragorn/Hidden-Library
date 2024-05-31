@@ -58,7 +58,7 @@ public class BalancingManager : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(0))
         {
-            CheckTowerFinishing();
+            CheckTowerFinishing(true);
         }
         if (isReadyForVictoryCheck && !isGameFinished)
         {
@@ -179,9 +179,9 @@ public class BalancingManager : MonoBehaviour
         }
     }
 
-    private void CheckTowerFinishing()
+    private void CheckTowerFinishing(bool isReleased = false)
     {
-        isReadyForVictoryCheck = IsTowerFinished();
+        isReadyForVictoryCheck = IsTowerFinished(isReleased);
         if (!isReadyForVictoryCheck && victoryDelayLeft != victoryDelay)
         {
             victoryDelayLeft = victoryDelay;
@@ -189,11 +189,11 @@ public class BalancingManager : MonoBehaviour
         }
     }
 
-    private bool IsTowerFinished()
+    private bool IsTowerFinished(bool isReleased = false)
     {
         if (towerObjects.Count == balancingObjects.Count)
         {
-            if (balancingObjects.All(bo => !bo.IsDragging))
+            if (isReleased || balancingObjects.All(bo => !bo.IsDragging))
             {
                 return true;
             }

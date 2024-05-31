@@ -11,6 +11,7 @@ namespace Assets.Scripts.MiniGames.Balancing
     public class BalancingObject : DraggableObject
     {
         [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] protected SpriteRenderer highlighting;
         private List<Collider2D> otherPhysicalColliders;
         private bool isTouched;
         private Collider2D collider;
@@ -41,6 +42,10 @@ namespace Assets.Scripts.MiniGames.Balancing
             balancingManager = FindObjectOfType<BalancingManager>();
             animator = GetComponent<Animator>();
             SetDisplayOrder(balancingManager.DefaultStaticObjectDisplayOrder);
+            if (highlighting != null)
+            {
+                highlighting.gameObject.SetActive(false);
+            }
         }
 
         private void Start()
@@ -56,13 +61,29 @@ namespace Assets.Scripts.MiniGames.Balancing
         protected override void Update()
         {
             base.Update();
+            HandleHighlight();
+        }
+
+        private void HandleHighlight()
+        {
+            if (highlighting == null)
+            {
+                return;
+            }
+            Vector2 mousePosition = dragListener.GetMousePosition();
+            bool highlightNeeded = !isTouched && dragListener.DraggingCollider.bounds.Contains(mousePosition);
+            if (isHighlighted != highlightNeeded)
+            {
+                isHighlighted = highlightNeeded;
+                highlighting.gameObject.SetActive(isHighlighted);
+            }
         }
 
         private void DragListener_OnDragStarted(object sender, EventArgs e)
         {
             OnDragStarted?.Invoke(this, this);
             if (!IsTouched)
-            {                
+            {
                 SetDisplayOrder(balancingManager.DefaultDraggingObjectDisplayOrder);
                 EnablePhysics();
                 isTouched = true;
@@ -101,6 +122,10 @@ namespace Assets.Scripts.MiniGames.Balancing
         public void SetDisplayOrder(int displayOrder)
         {
             spriteRenderer.sortingOrder = displayOrder;
+            if (highlighting != null)
+            {
+                highlighting.sortingOrder = displayOrder - 1;
+            }
         }
 
         protected override void HandleDragging()

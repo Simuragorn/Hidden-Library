@@ -369,10 +369,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 15904680}
     m_Modifications:
-    - target: {fileID: 3296459905723430132, guid: 2412a11d0864c77449951e9ee5eec858, type: 3}
-      propertyPath: m_Mass
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 5496869796433521123, guid: 2412a11d0864c77449951e9ee5eec858, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.54
@@ -417,16 +413,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: BalancingObject2
       objectReference: {fileID: 0}
-    - target: {fileID: 5687346514263522479, guid: 2412a11d0864c77449951e9ee5eec858, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 5496869796433521123, guid: 2412a11d0864c77449951e9ee5eec858, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1996802404}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2412a11d0864c77449951e9ee5eec858, type: 3}
 --- !u!1 &415914239
@@ -2193,37 +2182,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6140261767325180151, guid: d720cbfc180503244be3e731bddc7add, type: 3}
   m_PrefabInstance: {fileID: 3113111242478414810}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1996802403
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1996802404}
-  m_Layer: 0
-  m_Name: Physical
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1996802404
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1996802403}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1673228287}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1926729522821847992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2276,10 +2234,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BalancingObject4
       objectReference: {fileID: 0}
-    - target: {fileID: 8741640523526303399, guid: 93eb0d06f6c14fb46bcbc6361c68f627, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2293,10 +2247,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 15904680}
     m_Modifications:
-    - target: {fileID: 3801384079834512864, guid: d720cbfc180503244be3e731bddc7add, type: 3}
-      propertyPath: m_Mass
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 6140261767325180151, guid: d720cbfc180503244be3e731bddc7add, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10.49
@@ -2397,10 +2347,6 @@ PrefabInstance:
     - target: {fileID: 7031662565896947300, guid: 949daded3004a22499d6eb864e94f8f1, type: 3}
       propertyPath: m_Name
       value: BalancingObject3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7031662565896947300, guid: 949daded3004a22499d6eb864e94f8f1, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
