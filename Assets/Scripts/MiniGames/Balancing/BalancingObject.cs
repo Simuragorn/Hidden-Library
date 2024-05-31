@@ -11,8 +11,6 @@ namespace Assets.Scripts.MiniGames.Balancing
     public class BalancingObject : DraggableObject
     {
         [SerializeField] private SpriteRenderer spriteRenderer;
-        [SerializeField] private float angle;
-        [SerializeField] private float isTop;
         private List<Collider2D> otherPhysicalColliders;
         private bool isTouched;
         private Collider2D collider;
@@ -57,8 +55,6 @@ namespace Assets.Scripts.MiniGames.Balancing
         protected override void Update()
         {
             base.Update();
-            angle = transform.rotation.eulerAngles.z;
-            isTop = angle > 90 && angle < 270 ? 1 : -1;
         }
 
         private void DragListener_OnDragStarted(object sender, EventArgs e)
@@ -112,21 +108,19 @@ namespace Assets.Scripts.MiniGames.Balancing
                 base.HandleDragging();
             }
         }
-
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            var otherObject = collision.gameObject.GetComponent<BalancingObject>();
+            var otherObject = collision.gameObject.GetComponentInParent<BalancingObject>();
             if (!connectedObjects.Contains(otherObject))
             {
                 connectedObjects.Add(otherObject);
                 OnCollisionHappened?.Invoke(this, this);
             }
-
         }
 
-        private void OnCollisionExit2D(Collision2D collision)
+        private void OnTriggerExit2D(Collider2D collision)
         {
-            var otherObject = collision.gameObject.GetComponent<BalancingObject>();
+            var otherObject = collision.gameObject.GetComponentInParent<BalancingObject>();
             if (connectedObjects.Contains(otherObject))
             {
                 connectedObjects.Remove(otherObject);
