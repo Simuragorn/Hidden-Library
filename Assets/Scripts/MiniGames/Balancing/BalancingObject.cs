@@ -120,7 +120,7 @@ namespace Assets.Scripts.MiniGames.Balancing
             isDraggable = false;
             EnablePhysics(true);
             Vector2 bottomVisiblePoint = Camera.main.ViewportToWorldPoint(new Vector2(0.5f, 0));
-            transform.position = new Vector2(bottomVisiblePoint.x, bottomVisiblePoint.y + spriteRenderer.size.y);
+            transform.position = new Vector2(bottomVisiblePoint.x, bottomVisiblePoint.y + spriteRenderer.size.y / 2);
             basePosition = transform.position;
             var pusher = FindObjectOfType<BalancingObjectPusher>();
             pusher.SetTarget(this);

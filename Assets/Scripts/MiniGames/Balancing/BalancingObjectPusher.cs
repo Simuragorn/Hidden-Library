@@ -39,24 +39,45 @@ namespace Assets.Scripts.MiniGames.Balancing
             {
                 return;
             }
-            float xVelocity = targetRigidbody.velocity.x;
+            var velocity = new Vector2(targetRigidbody.velocity.x, targetRigidbody.velocity.y);
             if (changeVelocityDelayLeft <= 0)
             {
-                xVelocity = Random.Range(minVelocity, maxVelocity) * MathHelper.GetRandomSign();
+                velocity = GetRandomVelocity();
                 changeVelocityDelayLeft = changeVelocityDelay;
             }
+            targetRigidbody.velocity = ValidateVelocity(velocity);
+            changeVelocityDelayLeft -= Time.deltaTime;
+        }
 
-            float distance = Mathf.Abs(target.BasePosition.x - target.transform.position.x);
-            if (distance >= maxDistance)
+        private Vector2 GetRandomVelocity()
+        {
+            var velocity = new Vector2();
+            velocity.x = Random.Range(minVelocity, maxVelocity) * MathHelper.GetRandomSign();
+            velocity.y = Random.Range(minVelocity, maxVelocity) * MathHelper.GetRandomSign();
+            return velocity;
+        }
+
+        private Vector2 ValidateVelocity(Vector2 velocity)
+        {
+            float xDistance = Mathf.Abs(target.BasePosition.x - target.transform.position.x);
+            if (xDistance >= maxDistance)
             {
-                float expectedDistance = Mathf.Abs(target.BasePosition.x - (target.transform.position.x + xVelocity));
-                if (expectedDistance > distance)
+                float expectedXDistance = Mathf.Abs(target.BasePosition.x - (target.transform.position.x + velocity.x));
+                if (expectedXDistance > xDistance)
                 {
-                    xVelocity *= -1;
+                    velocity.x *= -1;
                 }
             }
-            targetRigidbody.velocity = new Vector2(xVelocity, targetRigidbody.velocity.y);
-            changeVelocityDelayLeft -= Time.deltaTime;
+            float yDistance = Mathf.Abs(target.BasePosition.y - target.transform.position.y);
+            if (yDistance >= maxDistance)
+            {
+                float expectedYDistance = Mathf.Abs(target.BasePosition.y - (target.transform.position.y + velocity.y));
+                if (expectedYDistance > yDistance)
+                {
+                    velocity.y *= -1;
+                }
+            }
+            return velocity;
         }
     }
 }

@@ -1490,7 +1490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minVelocity: 0.3
-  maxVelocity: 1
+  maxVelocity: 0.4
   maxDistance: 2
   changeVelocityDelay: 0.5
 --- !u!4 &928910020
@@ -2419,7 +2419,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1772155074889504573, guid: 6faac58f495885446a79ec76cd79a1bc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -7.82
+      value: -9.91
       objectReference: {fileID: 0}
     - target: {fileID: 1772155074889504573, guid: 6faac58f495885446a79ec76cd79a1bc, type: 3}
       propertyPath: m_LocalPosition.z
