@@ -29,7 +29,7 @@ namespace Assets.Scripts.Consts
 
         public static class BalancingObject
         {
-            public const string IsTouchednTriggerName = "isTouched";
+            public const string IsTouchedValueName = "isTouched";
         }
     }
 }

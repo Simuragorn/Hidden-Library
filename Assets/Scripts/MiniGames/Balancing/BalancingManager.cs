@@ -12,30 +12,33 @@ public class BalancingManager : MonoBehaviour
 {
     [SerializeField] private float victoryDelay = 5f;
     [SerializeField] private float attentionHintAngle = 20;
-    [SerializeField] private float movementVelocity = 15f;
+    [SerializeField] private float maxMovementVelocity = 15f;
+    [SerializeField] private float returningSpeed = 10f;
+    [SerializeField] private float returningRotationSpeed = 5f;
     [SerializeField] private float rotationSpeed = 15f;
-    [SerializeField] private bool useJoints = true;
     [SerializeField] private int baseObjectDisplayOrder = 15;
     [SerializeField] private int defaultStaticObjectDisplayOrder = 5;
     [SerializeField] private int defaultDraggingObjectDisplayOrder = 10;
 
     [SerializeField] private BalancingObject baseObject;
-
-    [SerializeField] private List<BalancingObject> balancingObjects = new();
-    [SerializeField] private List<BalancingObject> towerObjects = new();
     [SerializeField] private GameObject victoryPanel;
     [SerializeField] private GameObject defeatPanel;
     [SerializeField] private Button restartButton;
     [SerializeField] private Button nextLevelButton;
     [SerializeField] private TextMeshProUGUI victoryDelayTextComponent;
+
+    private List<BalancingObject> balancingObjects = new();
+    private List<BalancingObject> towerObjects = new();
     private BalancingGround balancingGround;
     private bool isGameFinished = false;
     private bool isRestarting = false;
     private bool isReadyForVictoryCheck = false;
-    [SerializeField] private float victoryDelayLeft;
+    private float victoryDelayLeft;
 
-    public float MovementVelocity => movementVelocity;
+    public float MovementVelocity => maxMovementVelocity;
     public float RotationSpeed => rotationSpeed;
+    public float ReturningSpeed => returningSpeed;
+    public float ReturningRotationSpeed => returningRotationSpeed;
 
     public int DefaultStaticObjectDisplayOrder => defaultStaticObjectDisplayOrder;
     public int DefaultDraggingObjectDisplayOrder => defaultDraggingObjectDisplayOrder;

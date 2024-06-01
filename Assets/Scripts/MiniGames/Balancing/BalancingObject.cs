@@ -3,6 +3,7 @@ using Assets.Scripts.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace Assets.Scripts.MiniGames.Balancing
@@ -20,6 +21,7 @@ namespace Assets.Scripts.MiniGames.Balancing
 
         [SerializeField] private List<BalancingObject> connectedObjects = new List<BalancingObject>();
         private BalancingManager balancingManager;
+        private bool isBaseObject = false;
         public Rigidbody2D Rigidbody => rigidbody;
         public event EventHandler<BalancingObject> OnCollisionHappened;
         public event EventHandler<BalancingObject> OnDragStarted;
@@ -66,6 +68,35 @@ namespace Assets.Scripts.MiniGames.Balancing
         {
             base.Update();
             HandleHighlight();
+            HandleReturningInput();
+            HandleReturning();
+        }
+
+        private void HandleReturningInput()
+        {
+            if (IsDragging && Input.GetAxis("Mouse ScrollWheel") > 0f)
+            {
+                SetDisplayOrder(balancingManager.DefaultStaticObjectDisplayOrder);
+                DisablePhysics();
+                isTouched = false;
+                animator.SetBool(AnimationConsts.BalancingObject.IsTouchedValueName, false);
+            }
+        }
+
+        private void HandleReturning()
+        {
+            if (!isTouched && !isBaseObject)
+            {
+                bool moved = Vector2.Distance(transform.position, basePosition) > CalculationConsts.DistanceOffset;
+                if (moved)
+                {
+                    transform.position = Vector2.MoveTowards(transform.position, basePosition, balancingManager.ReturningSpeed * Time.deltaTime);
+                }
+                if (transform.rotation != Quaternion.identity)
+                {
+                    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.identity, balancingManager.ReturningRotationSpeed * Time.deltaTime);
+                }
+            }
         }
 
         private void HandleHighlight()
@@ -96,7 +127,7 @@ namespace Assets.Scripts.MiniGames.Balancing
                 SetDisplayOrder(balancingManager.DefaultDraggingObjectDisplayOrder);
                 EnablePhysics();
                 isTouched = true;
-                animator.SetBool(AnimationConsts.BalancingObject.IsTouchednTriggerName, true);
+                animator.SetBool(AnimationConsts.BalancingObject.IsTouchedValueName, true);
             }
         }
 
@@ -123,6 +154,7 @@ namespace Assets.Scripts.MiniGames.Balancing
         public void SetAsBalancingBaseObject()
         {
             isDraggable = false;
+            isBaseObject = true;
             EnablePhysics(true);
             Vector2 bottomVisiblePoint = Camera.main.ViewportToWorldPoint(new Vector2(0.5f, 0));
             transform.position = new Vector2(bottomVisiblePoint.x, bottomVisiblePoint.y + spriteRenderer.size.y / 2);

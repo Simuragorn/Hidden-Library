@@ -457,7 +457,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   victoryDelay: 5
   attentionHintAngle: 15
-  movementVelocity: 15
+  maxMovementVelocity: 15
+  returningSpeed: 15
+  returningRotationSpeed: 5
   rotationSpeed: 35
   useJoints: 0
   baseObjectDisplayOrder: 15
