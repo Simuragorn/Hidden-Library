@@ -83,6 +83,11 @@ namespace Assets.Scripts.MiniGames.Balancing
             }
         }
 
+        public float GetLowestYPos()
+        {
+            return collider.bounds.min.y;
+        }
+
         private void DragListener_OnDragStarted(object sender, EventArgs e)
         {
             OnDragStarted?.Invoke(this, this);
@@ -144,8 +149,8 @@ namespace Assets.Scripts.MiniGames.Balancing
         }
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            var otherObject = collision.gameObject.GetComponentInParent<BalancingObject>();
-            if (!connectedObjects.Contains(otherObject))
+            var otherObject = collision.gameObject.GetComponent<BalancingObject>();
+            if (otherObject != null && !connectedObjects.Contains(otherObject))
             {
                 connectedObjects.Add(otherObject);
                 OnCollisionHappened?.Invoke(this, this);
@@ -154,8 +159,8 @@ namespace Assets.Scripts.MiniGames.Balancing
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            var otherObject = collision.gameObject.GetComponentInParent<BalancingObject>();
-            if (connectedObjects.Contains(otherObject))
+            var otherObject = collision.gameObject.GetComponent<BalancingObject>();
+            if (otherObject != null && connectedObjects.Contains(otherObject))
             {
                 connectedObjects.Remove(otherObject);
                 OnCollisionHappened?.Invoke(this, this);

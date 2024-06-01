@@ -181,7 +181,9 @@ public class BalancingManager : MonoBehaviour
         }
         currentObject.SetDisplayOrder(displayOrder);
 
-        var otherConnectedObjects = currentObject.ConnectedObjects.Where(co => co != previousObject && co.transform.position.y > currentObject.transform.position.y);
+        List<BalancingObject> otherConnectedObjects = currentObject.ConnectedObjects
+            .Where(co => co != previousObject &&
+        co.GetLowestYPos() > currentObject.GetLowestYPos()).ToList();
         var neededObject = otherConnectedObjects.OrderByDescending(co => co.ConnectedObjects.Count).FirstOrDefault();
         if (neededObject != null)
         {
