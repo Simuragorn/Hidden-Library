@@ -17,7 +17,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ThrowingMiniGame.unity
     guid: 792174a2beae1ee429af2fbddaa5b27d
-  - enabled: 1
-    path: Assets/Scenes/BalancingMiniGameTesting.unity
-    guid: 2374dbd4974c4654db909ee42dd862e7
   m_configObjects: {}

@@ -1,4 +1,3 @@
-using Assets.Scripts.Enums;
 using Assets.Scripts.MiniGames.Balancing;
 using System.Collections;
 using System.Collections.Generic;
@@ -65,16 +64,12 @@ public class BalancingManager : MonoBehaviour
         }
         if (isReadyForVictoryCheck && !isGameFinished)
         {
-            victoryDelayTextComponent.text = $"Удержите чашки ещё {(int)victoryDelayLeft} секунд";
+            victoryDelayTextComponent.text = $"Удержите чашки ещё {(int)victoryDelayLeft + 1} секунд";
             victoryDelayLeft -= Time.deltaTime;
             if (victoryDelayLeft <= 0)
             {
                 ShowVictory();
             }
-        }
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
-        {
-            RecalculateTower();
         }
     }
 

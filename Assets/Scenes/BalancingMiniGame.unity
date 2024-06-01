@@ -461,19 +461,15 @@ MonoBehaviour:
   returningSpeed: 15
   returningRotationSpeed: 5
   rotationSpeed: 35
-  useJoints: 0
   baseObjectDisplayOrder: 15
   defaultStaticObjectDisplayOrder: 5
   defaultDraggingObjectDisplayOrder: 10
   baseObject: {fileID: 7332707843106774732}
-  balancingObjects: []
-  towerObjects: []
   victoryPanel: {fileID: 1716800139}
   defeatPanel: {fileID: 737071884}
   restartButton: {fileID: 1187545760}
   nextLevelButton: {fileID: 872116203}
   victoryDelayTextComponent: {fileID: 778647238}
-  victoryDelayLeft: 0
 --- !u!4 &415914241
 Transform:
   m_ObjectHideFlags: 0
@@ -973,10 +969,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 156957256}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 30, y: -30}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -644.91595, y: -30}
+  m_SizeDelta: {x: 624.605, y: 123.305}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &778647238
 MonoBehaviour:
@@ -1033,7 +1029,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1062,7 +1058,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -346.12354, w: -64.986374}
+  m_margin: {x: 0, y: 0, z: 3.2973633, w: 2.1606903}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
