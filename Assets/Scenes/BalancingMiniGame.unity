@@ -1460,6 +1460,54 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6650966167718476375, guid: 93eb0d06f6c14fb46bcbc6361c68f627, type: 3}
   m_PrefabInstance: {fileID: 1926729522821847992}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &928910018
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 928910020}
+  - component: {fileID: 928910019}
+  m_Layer: 0
+  m_Name: BalancingObjectPusher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &928910019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928910018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b76fc92dff857da46b1debf406298f10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minVelocity: 0.3
+  maxVelocity: 1
+  maxDistance: 2
+  changeVelocityDelay: 0.5
+--- !u!4 &928910020
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928910018}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1006606411
 GameObject:
   m_ObjectHideFlags: 0
@@ -2435,3 +2483,4 @@ SceneRoots:
   - {fileID: 156957256}
   - {fileID: 7332707843106774731}
   - {fileID: 15904680}
+  - {fileID: 928910020}

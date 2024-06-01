@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Consts;
+using Assets.Scripts.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Assets.Scripts.MiniGames.Balancing
         private Collider2D collider;
         private Animator animator;
 
-        private List<BalancingObject> connectedObjects = new List<BalancingObject>();
+        [SerializeField] private List<BalancingObject> connectedObjects = new List<BalancingObject>();
         private BalancingManager balancingManager;
         public Rigidbody2D Rigidbody => rigidbody;
         public event EventHandler<BalancingObject> OnCollisionHappened;
@@ -27,10 +28,13 @@ namespace Assets.Scripts.MiniGames.Balancing
 
         public bool IsTouched => isTouched;
         public bool IsDragging => dragListener != null && dragListener.IsDragging;
+        private Vector2 basePosition;
+        public Vector2 BasePosition => basePosition;
 
         protected override void Awake()
         {
             base.Awake();
+            basePosition = transform.position;
             collider = GetComponent<Collider2D>();
             otherPhysicalColliders = GetComponentsInChildren<Collider2D>()
                 .Where(c => !c.isTrigger).ToList();
@@ -117,6 +121,9 @@ namespace Assets.Scripts.MiniGames.Balancing
             EnablePhysics(true);
             Vector2 bottomVisiblePoint = Camera.main.ViewportToWorldPoint(new Vector2(0.5f, 0));
             transform.position = new Vector2(bottomVisiblePoint.x, bottomVisiblePoint.y + spriteRenderer.size.y);
+            basePosition = transform.position;
+            var pusher = FindObjectOfType<BalancingObjectPusher>();
+            pusher.SetTarget(this);
         }
 
         public void SetDisplayOrder(int displayOrder)

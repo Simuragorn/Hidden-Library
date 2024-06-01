@@ -69,12 +69,17 @@ public class BalancingManager : MonoBehaviour
                 ShowVictory();
             }
         }
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            RecalculateTower();
+        }
     }
 
     private void BalancingGround_OnBalancingObjectFall(object sender, System.EventArgs e)
     {
         victoryDelayTextComponent.text = $"Башня развалилась...";
         isGameFinished = true;
+        DisableTowerPhysics();
         defeatPanel.gameObject.SetActive(true);
     }
 
@@ -140,11 +145,16 @@ public class BalancingManager : MonoBehaviour
     {
         isGameFinished = true;
         victoryDelayTextComponent.text = $"Даже не разбилось ничего";
+        DisableTowerPhysics();
+        victoryPanel.gameObject.SetActive(true);
+    }
+
+    private void DisableTowerPhysics()
+    {
         foreach (var balancingObject in balancingObjects)
         {
             balancingObject.DisablePhysics();
         }
-        victoryPanel.gameObject.SetActive(true);
     }
 
     private void RecalculateTower()
