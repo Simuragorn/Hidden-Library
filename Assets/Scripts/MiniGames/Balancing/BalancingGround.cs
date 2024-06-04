@@ -8,7 +8,7 @@ public class BalancingGround : MonoBehaviour
     public event EventHandler OnBalancingObjectFall;
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        var balancingObject = collision.gameObject.GetComponent<BalancingObject>();
+        var balancingObject = collision.gameObject.GetComponentInParent<BalancingObject>();
         if (balancingObject != null)
         {
             OnBalancingObjectFall?.Invoke(this, EventArgs.Empty);

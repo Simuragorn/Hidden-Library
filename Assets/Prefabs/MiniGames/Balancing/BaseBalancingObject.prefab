@@ -94,11 +94,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1772155074889504573}
   - component: {fileID: 3489082151118683902}
-  - component: {fileID: 3394865103925385191}
   - component: {fileID: 6094004243776182276}
   - component: {fileID: 6098361513718872728}
   m_Layer: 0
-  m_Name: BalancingObject4
+  m_Name: BaseBalancingObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113,12 +112,13 @@ Transform:
   m_GameObject: {fileID: 1460066308142891546}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.97, y: -4.48, z: 0}
+  m_LocalPosition: {x: 0, y: -9.91, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7880064646208945609}
   - {fileID: 5440814029628748736}
+  - {fileID: 3967569396977894212}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &3489082151118683902
@@ -148,13 +148,86 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!60 &3394865103925385191
-PolygonCollider2D:
+--- !u!114 &6094004243776182276
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1460066308142891546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5651d6f5c0aad0c40a35985da767c28d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dragListener: {fileID: 0}
+  jointFrequency: 1
+  jointDamping: 5
+  maxDraggingVelocity: 5
+  spriteRenderer: {fileID: 2633416198408837228}
+  highlighting: {fileID: 0}
+  innerBodyTrigger: {fileID: 5266219415351585517}
+--- !u!95 &6098361513718872728
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460066308142891546}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &1552252527734606815
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3967569396977894212}
+  - component: {fileID: 3527727019188697338}
+  - component: {fileID: 5266219415351585517}
+  m_Layer: 11
+  m_Name: InnerCollisionTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3967569396977894212
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552252527734606815}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1772155074889504573}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &3527727019188697338
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552252527734606815}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -192,52 +265,23 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 1.1978726, y: -0.60388803}
-      - {x: 3.737819, y: 1.3429561}
-      - {x: 3.282606, y: 3.1382623}
-      - {x: 1.7044883, y: 3.080779}
-      - {x: -2.2795095, y: 3.1681685}
-      - {x: -2.1595845, y: 1.2778654}
-      - {x: -1.2111185, y: -0.59222794}
+    - - {x: 1.1535358, y: -0.365026}
+      - {x: 1.8519015, y: 3.0914774}
+      - {x: -1.9274182, y: 3.073298}
+      - {x: -0.9982115, y: -0.4083538}
   m_UseDelaunayMesh: 0
---- !u!114 &6094004243776182276
+--- !u!114 &5266219415351585517
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1460066308142891546}
+  m_GameObject: {fileID: 1552252527734606815}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5651d6f5c0aad0c40a35985da767c28d, type: 3}
+  m_Script: {fileID: 11500000, guid: 207c7aa6de417e840934adb3b3360dc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dragListener: {fileID: 0}
-  jointFrequency: 1
-  jointDamping: 5
-  maxDraggingVelocity: 5
-  spriteRenderer: {fileID: 2633416198408837228}
---- !u!95 &6098361513718872728
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1460066308142891546}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5024645389094094481
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,8 +346,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0663339, y: 2.9958856}
-  m_Size: {x: 4.1657624, y: 0.14354755}
+  m_Offset: {x: -0.0663339, y: 3.0048995}
+  m_Size: {x: 4.165764, y: 0.19762805}
   m_Direction: 1
 --- !u!1 &5118051417681297014
 GameObject:
@@ -348,7 +392,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3450133250788229246}
   - component: {fileID: 1972771472214717291}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BodyCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -420,8 +464,8 @@ PolygonCollider2D:
       - {x: 1.7044883, y: 3.080779}
       - {x: 1.1624322, y: -0.3747673}
       - {x: -1.018141, y: -0.41878843}
-      - {x: -1.726629, y: 3.129695}
-      - {x: -2.2795095, y: 3.1681685}
+      - {x: -1.9535646, y: 3.0767436}
+      - {x: -2.203864, y: 3.1000881}
       - {x: -2.1595845, y: 1.2778654}
       - {x: -1.2111185, y: -0.59222794}
   m_UseDelaunayMesh: 0

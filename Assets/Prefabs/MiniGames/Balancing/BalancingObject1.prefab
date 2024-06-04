@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8898229591432889196}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Physical
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -324,7 +324,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4975116958623919795}
   - component: {fileID: 2360945053088658739}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: BodyCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -489,7 +489,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &6310627171388995003
+--- !u!1 &5412745193814822663
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -497,70 +497,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6140261767325180151}
-  - component: {fileID: 3801384079834512864}
-  - component: {fileID: 5351547267874977889}
-  - component: {fileID: 5549399332299487256}
-  - component: {fileID: 8730325791015487752}
-  m_Layer: 7
-  m_Name: BalancingObject1
+  - component: {fileID: 2501428269674671276}
+  - component: {fileID: 3590842706286701664}
+  - component: {fileID: 358561157922746374}
+  m_Layer: 11
+  m_Name: InnerCollissionTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6140261767325180151
+--- !u!4 &2501428269674671276
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6310627171388995003}
+  m_GameObject: {fileID: 5412745193814822663}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 3205438191532559419}
-  - {fileID: 4527291740475471906}
-  - {fileID: 8898229591432889196}
-  m_Father: {fileID: 0}
+  m_Children: []
+  m_Father: {fileID: 6140261767325180151}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &3801384079834512864
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6310627171388995003}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 7
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 5
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!60 &5351547267874977889
+--- !u!60 &3590842706286701664
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6310627171388995003}
+  m_GameObject: {fileID: 5412745193814822663}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -598,18 +566,88 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 2.640253, y: 1.1012937}
-      - {x: 2.3200884, y: 1.3870308}
-      - {x: -2.010436, y: 1.2527368}
-      - {x: -2.0321665, y: 0.75168157}
-      - {x: -2.8436148, y: 1.0967362}
-      - {x: -3.1730127, y: -0.6721741}
-      - {x: -2.3067207, y: -1.4065423}
-      - {x: -1.696805, y: -1.4463544}
-      - {x: -1.2916994, y: -1.3265185}
-      - {x: -1.0063251, y: -1.9683516}
-      - {x: 1.5830665, y: -1.8773506}
+    - - {x: 1.4463701, y: -1.644638}
+      - {x: 2.3438816, y: 1.3198245}
+      - {x: -1.61345, y: 1.2804289}
+      - {x: -0.71328104, y: -1.7946956}
   m_UseDelaunayMesh: 0
+--- !u!114 &358561157922746374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5412745193814822663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 207c7aa6de417e840934adb3b3360dc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &6310627171388995003
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6140261767325180151}
+  - component: {fileID: 3801384079834512864}
+  - component: {fileID: 5549399332299487256}
+  - component: {fileID: 8730325791015487752}
+  m_Layer: 7
+  m_Name: BalancingObject1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6140261767325180151
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6310627171388995003}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3205438191532559419}
+  - {fileID: 4527291740475471906}
+  - {fileID: 8898229591432889196}
+  - {fileID: 2501428269674671276}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &3801384079834512864
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6310627171388995003}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 7
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 5
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!114 &5549399332299487256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -628,7 +666,7 @@ MonoBehaviour:
   maxDraggingVelocity: 15
   spriteRenderer: {fileID: 3755417018701725160}
   highlighting: {fileID: 5707154264257821792}
-  connectedObjects: []
+  innerBodyTrigger: {fileID: 358561157922746374}
 --- !u!95 &8730325791015487752
 Animator:
   serializedVersion: 5

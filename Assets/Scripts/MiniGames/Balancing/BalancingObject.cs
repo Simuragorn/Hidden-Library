@@ -6,24 +6,23 @@ using UnityEngine;
 
 namespace Assets.Scripts.MiniGames.Balancing
 {
-    [RequireComponent(typeof(Collider2D))]
     [RequireComponent(typeof(Animator))]
     public class BalancingObject : DraggableObject
     {
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] protected SpriteRenderer highlighting;
-        private List<Collider2D> otherPhysicalColliders;
+        [SerializeField] private TriggerEmitter2D innerBodyTrigger;
+        private List<Collider2D> physicalColliders;
         private bool isTouched;
-        private Collider2D collider;
         private Animator animator;
 
-        [SerializeField] private List<BalancingObject> connectedObjects = new List<BalancingObject>();
+        [SerializeField] private List<BalancingObject> innerBalancingObjects = new();
         private BalancingManager balancingManager;
         private bool isBaseObject = false;
         public Rigidbody2D Rigidbody => rigidbody;
         public event EventHandler<BalancingObject> OnCollisionHappened;
         public event EventHandler<BalancingObject> OnDragStarted;
-        public IReadOnlyList<BalancingObject> ConnectedObjects => connectedObjects;
+        public IReadOnlyList<BalancingObject> InnerBalancingObjects => innerBalancingObjects;
         public int DisplayOrder => spriteRenderer.sortingOrder;
 
         public bool IsTouched => isTouched;
@@ -35,8 +34,7 @@ namespace Assets.Scripts.MiniGames.Balancing
         {
             base.Awake();
             basePosition = transform.position;
-            collider = GetComponent<Collider2D>();
-            otherPhysicalColliders = GetComponentsInChildren<Collider2D>()
+            physicalColliders = GetComponentsInChildren<Collider2D>()
                 .Where(c => !c.isTrigger).ToList();
             DisablePhysics();
             if (dragListener != null)
@@ -50,6 +48,8 @@ namespace Assets.Scripts.MiniGames.Balancing
             {
                 highlighting.gameObject.SetActive(false);
             }
+            innerBodyTrigger.OnTriggerEnter += InnerBodyTrigger_OnTriggerEnter;
+            innerBodyTrigger.OnTriggerExit += InnerBodyTrigger_OnTriggerExit;
         }
 
         private void Start()
@@ -122,9 +122,9 @@ namespace Assets.Scripts.MiniGames.Balancing
             }
         }
 
-        public float GetLowestYPos()
+        public float GetMassCenterWorldPosY()
         {
-            return collider.bounds.min.y;
+            return rigidbody.worldCenterOfMass.y;
         }
 
         private void DragListener_OnDragStarted(object sender, EventArgs e)
@@ -142,8 +142,8 @@ namespace Assets.Scripts.MiniGames.Balancing
         public void DisablePhysics()
         {
             rigidbody.bodyType = RigidbodyType2D.Static;
-            collider.enabled = false;
-            foreach (var collider in otherPhysicalColliders)
+            innerBodyTrigger.enabled = false;
+            foreach (var collider in physicalColliders)
             {
                 collider.enabled = false;
             }
@@ -152,8 +152,8 @@ namespace Assets.Scripts.MiniGames.Balancing
         private void EnablePhysics(bool isBase = false)
         {
             rigidbody.bodyType = isBase ? RigidbodyType2D.Kinematic : RigidbodyType2D.Dynamic;
-            collider.enabled = true;
-            foreach (var collider in otherPhysicalColliders)
+            innerBodyTrigger.enabled = true;
+            foreach (var collider in physicalColliders)
             {
                 collider.enabled = true;
             }
@@ -188,22 +188,23 @@ namespace Assets.Scripts.MiniGames.Balancing
                 base.HandleDragging();
             }
         }
-        private void OnTriggerEnter2D(Collider2D collision)
+
+        private void InnerBodyTrigger_OnTriggerExit(object sender, Collider2D collision)
         {
-            var otherObject = collision.gameObject.GetComponent<BalancingObject>();
-            if (otherObject != null && !connectedObjects.Contains(otherObject))
+            var otherObject = collision.gameObject.GetComponentInParent<BalancingObject>();
+            if (otherObject != null && innerBalancingObjects.Contains(otherObject))
             {
-                connectedObjects.Add(otherObject);
+                innerBalancingObjects.Remove(otherObject);
                 OnCollisionHappened?.Invoke(this, this);
             }
         }
 
-        private void OnTriggerExit2D(Collider2D collision)
+        private void InnerBodyTrigger_OnTriggerEnter(object sender, Collider2D collision)
         {
-            var otherObject = collision.gameObject.GetComponent<BalancingObject>();
-            if (otherObject != null && connectedObjects.Contains(otherObject))
+            var otherObject = collision.gameObject.GetComponentInParent<BalancingObject>();
+            if (otherObject != null && otherObject != this && !innerBalancingObjects.Contains(otherObject))
             {
-                connectedObjects.Remove(otherObject);
+                innerBalancingObjects.Add(otherObject);
                 OnCollisionHappened?.Invoke(this, this);
             }
         }

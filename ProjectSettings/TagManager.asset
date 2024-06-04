@@ -15,8 +15,8 @@ TagManager:
   - InteractableObject
   - Ground
   - BalancingTop
-  - 
-  - 
+  - BalancingOuterBody
+  - BalancingInnerBody
   - 
   - 
   - 

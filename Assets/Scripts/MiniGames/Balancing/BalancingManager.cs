@@ -64,6 +64,10 @@ public class BalancingManager : MonoBehaviour
         {
             CheckTowerFinishing(true);
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            RecalculateTower();
+        }
         HandleVictoryCheck();
     }
 
@@ -171,27 +175,34 @@ public class BalancingManager : MonoBehaviour
             return;
         }
         towerObjects.Clear();
-        BalancingObject currentObject = baseObject;
-        BalancingObject previousObject = baseObject;
-        RecalculateTowerPart(currentObject, previousObject);
+        baseObject.SetDisplayOrder(baseObjectDisplayOrder);
+        List<BalancingObject> nestedObjects = balancingObjects.SelectMany(bo => bo.InnerBalancingObjects).ToList();
+        List<BalancingObject> freeObjects = balancingObjects.Where(bo => !nestedObjects.Contains(bo) && bo.IsTouched).ToList();
+        freeObjects.Add(baseObject);
+        foreach (var freeObject in freeObjects)
+        {
+            RecalculateTowerPart(freeObject, freeObject);
+        }
     }
 
     private void RecalculateTowerPart(BalancingObject currentObject, BalancingObject previousObject)
     {
+        if (towerObjects.Contains(currentObject))
+        {
+            return;
+        }
         towerObjects.Add(currentObject);
         int displayOrder = baseObjectDisplayOrder;
-        if (currentObject != baseObject)
+        if (currentObject != previousObject)
         {
             float rotation = currentObject.transform.rotation.eulerAngles.z;
-            int displayOffset = rotation > 90 && rotation < 270 ? 1 : -1;
-            displayOrder = previousObject.DisplayOrder + displayOffset;
+            displayOrder = previousObject.DisplayOrder - 1;
         }
         currentObject.SetDisplayOrder(displayOrder);
 
-        List<BalancingObject> otherConnectedObjects = currentObject.ConnectedObjects
-            .Where(co => co != previousObject &&
-        co.GetLowestYPos() > currentObject.GetLowestYPos()).ToList();
-        var neededObject = otherConnectedObjects.OrderByDescending(co => co.ConnectedObjects.Count).FirstOrDefault();
+        List<BalancingObject> otherConnectedObjects = currentObject.InnerBalancingObjects
+            .Where(co => co != previousObject).ToList();
+        var neededObject = otherConnectedObjects.FirstOrDefault();
         if (neededObject != null)
         {
             RecalculateTowerPart(neededObject, currentObject);
