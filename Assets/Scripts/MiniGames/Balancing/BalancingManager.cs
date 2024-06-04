@@ -136,7 +136,6 @@ public class BalancingManager : MonoBehaviour
     private void NewBalancingObject_OnCollisionHappened(object sender, BalancingObject balancingObject)
     {
         RecalculateTower();
-        CheckTowerFinishing();
     }
 
     private void ShowVictory()
@@ -191,7 +190,7 @@ public class BalancingManager : MonoBehaviour
 
     private void CheckTowerFinishing(bool isReleased = false)
     {
-        isReadyForVictoryCheck = IsTowerFinished(isReleased);
+        isReadyForVictoryCheck = AreAllObjectsActivatedAndFree(isReleased);
         if (!isReadyForVictoryCheck && victoryDelayLeft != victoryDelay)
         {
             victoryDelayLeft = victoryDelay;
@@ -199,15 +198,9 @@ public class BalancingManager : MonoBehaviour
         }
     }
 
-    private bool IsTowerFinished(bool isReleased = false)
+    private bool AreAllObjectsActivatedAndFree(bool isReleased)
     {
-        if (towerObjects.Count == balancingObjects.Count)
-        {
-            if (isReleased || balancingObjects.All(bo => !bo.IsDragging))
-            {
-                return true;
-            }
-        }
-        return false;
+        var towerBalancingObjects = balancingObjects.Where(bo => bo != baseObject).ToList();
+        return towerBalancingObjects.All(bo => bo.IsTouched && (!bo.IsDragging || isReleased));
     }
 }

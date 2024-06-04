@@ -22,7 +22,7 @@ namespace Assets.Scripts.MiniGames.Balancing
             changeVelocityDelayLeft = changeVelocityDelay;
         }
 
-        void Update()
+        void FixedUpdate()
         {
             HandleBalancingObjectVelocity();
         }

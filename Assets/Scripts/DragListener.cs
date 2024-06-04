@@ -44,18 +44,6 @@ public class DragListener : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        if (draggingCollider != null)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(draggingCollider.bounds.center, 0.1f);
-
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(GetMousePosition(), 0.1f);
-        }
-    }
-
     public void OnRelease()
     {
         isDragging = false;

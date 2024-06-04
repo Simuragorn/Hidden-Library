@@ -70,6 +70,16 @@ namespace Assets.Scripts.MiniGames.Balancing
             HandleReturning();
         }
 
+        private void OnDrawGizmos()
+        {
+            if (rigidbody != null)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireSphere(rigidbody.worldCenterOfMass, 0.5f);
+                Gizmos.color = Color.yellow;
+            }
+        }
+
         private void HandleReturningInput()
         {
             if (IsDragging && Input.GetAxis("Mouse ScrollWheel") > 0f)
@@ -147,6 +157,7 @@ namespace Assets.Scripts.MiniGames.Balancing
             {
                 collider.enabled = true;
             }
+            rigidbody.centerOfMass = Vector2.zero;
         }
 
         public void SetAsBalancingBaseObject()
