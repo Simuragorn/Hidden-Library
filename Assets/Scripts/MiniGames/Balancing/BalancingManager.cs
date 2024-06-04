@@ -26,6 +26,8 @@ public class BalancingManager : MonoBehaviour
     [SerializeField] private Button nextLevelButton;
     [SerializeField] private TextMeshProUGUI victoryDelayTextComponent;
 
+    private float victoryAdditionDelay = 0.5f;
+
     private List<BalancingObject> balancingObjects = new();
     private List<BalancingObject> towerObjects = new();
     private BalancingGround balancingGround;
@@ -44,7 +46,7 @@ public class BalancingManager : MonoBehaviour
 
     private void Awake()
     {
-        victoryDelayLeft = victoryDelay;
+        victoryDelayLeft = victoryDelay + victoryAdditionDelay;
         victoryDelayTextComponent.text = $"Соберите чашки";
         balancingGround = FindAnyObjectByType<BalancingGround>();
         balancingGround.OnBalancingObjectFall += BalancingGround_OnBalancingObjectFall;
@@ -62,9 +64,17 @@ public class BalancingManager : MonoBehaviour
         {
             CheckTowerFinishing(true);
         }
+        HandleVictoryCheck();
+    }
+
+    private void HandleVictoryCheck()
+    {
         if (isReadyForVictoryCheck && !isGameFinished)
         {
-            victoryDelayTextComponent.text = $"Удержите чашки ещё {(int)victoryDelayLeft + 1} секунд";
+            if (victoryDelayLeft - victoryDelay <= 0)
+            {
+                victoryDelayTextComponent.text = $"Удержите чашки ещё {(int)victoryDelayLeft + 1} секунд";
+            }
             victoryDelayLeft -= Time.deltaTime;
             if (victoryDelayLeft <= 0)
             {
@@ -193,7 +203,7 @@ public class BalancingManager : MonoBehaviour
         isReadyForVictoryCheck = AreAllObjectsActivatedAndFree(isReleased);
         if (!isReadyForVictoryCheck && victoryDelayLeft != victoryDelay)
         {
-            victoryDelayLeft = victoryDelay;
+            victoryDelayLeft = victoryDelay + victoryAdditionDelay;
             victoryDelayTextComponent.text = $"Соберите чашки";
         }
     }
