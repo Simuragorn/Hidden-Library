@@ -539,6 +539,7 @@ MonoBehaviour:
   maxDraggingVelocity: 15
   spriteRenderer: {fileID: 4756350366366320355}
   highlighting: {fileID: 436408398672690558}
+  connectedObjects: []
 --- !u!95 &7194481003150785592
 Animator:
   serializedVersion: 5
